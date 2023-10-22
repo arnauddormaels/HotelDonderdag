@@ -1,4 +1,5 @@
-﻿using Hotel.Domain.Model;
+﻿using Hotel.Domain.Managers;
+using Hotel.Domain.Model;
 using Hotel.Presentation.Customer.Model;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,12 @@ namespace Hotel.Presentation.Customer
                 NameTextBox.Text = CustomerUI.Name;
                 EmailTextBox.Text = CustomerUI.Email;
                 PhoneTextBox.Text = CustomerUI.Phone;
+                string[] address = Address.ToAddressArray(CustomerUI.Address);
+                CityTextBox.Text = address[0];
+                StreetTextBox.Text = address[2];
+                ZipTextBox.Text = address[1];
+                HouseNumberTextBox.Text = address[3];
+
             }
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -55,9 +62,13 @@ namespace Hotel.Presentation.Customer
                 CustomerUI.Email=EmailTextBox.Text;
                 CustomerUI.Phone=PhoneTextBox.Text;
                 CustomerUI.Name=NameTextBox.Text;
+
+                CustomerUI.Address = new Address(CityTextBox.Text, StreetTextBox.Text, ZipTextBox.Text, HouseNumberTextBox.Text).ToString();
             }
             DialogResult = true;
+            
             Close();
         }
+
     }
 }

@@ -12,7 +12,7 @@ namespace Hotel.Persistence.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private string connectionString;
+        private string connectionString = "@Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
 
         public CustomerRepository(string connectionString)
         {
@@ -40,6 +40,8 @@ namespace Hotel.Persistence.Repositories
                         while (reader.Read())
                         {
                             int id = Convert.ToInt32(reader["ID"]);
+                            
+
                             if (!customers.ContainsKey(id))
                             {
                                 Customer customer = new Customer(id, (string)reader["customername"], new ContactInfo((string)reader["email"], (string)reader["phone"], new Address((string)reader["address"])));
@@ -99,5 +101,50 @@ namespace Hotel.Persistence.Repositories
             }
             catch(Exception ex) { throw new CustomerRepositoryException("addcustomer", ex); }
         }
+
+        public void DeleteCustomer(int id)
+        {
+            try
+            {
+                string updateSql = "UPDATE Customer SET status = 0 WHERE id = @id";
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(updateSql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerRepositoryException("DeleteCustomer", ex);
+            }
+        }
+
+        public void UpdateCustomer(Customer customer)
+        {
+            try
+            {
+                string updateSql = "UPDATE Customer SET name = @name, email = @email, phone = @phone, address = @address WHERE id = @id";
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(updateSql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", customer.Id);
+                    cmd.Parameters.AddWithValue("@name", customer.Name);
+                    cmd.Parameters.AddWithValue("@email", customer.Contact.Email);
+                    cmd.Parameters.AddWithValue("@phone", customer.Contact.Phone);
+                    cmd.Parameters.AddWithValue("@address", customer.Contact.Address.ToAddressLine()); 
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerRepositoryException("UpdateCustomer", ex);
+            }
+        }
+
     }
 }

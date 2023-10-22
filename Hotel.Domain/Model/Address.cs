@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Hotel.Domain.Model
 {
     public class Address
     {
-        private const char splitChar= '|';
+        private const char splitChar = '|';
         public Address(string city, string street, string postalCode, string houseNumber)
         {
             City = city;
@@ -43,6 +44,35 @@ namespace Hotel.Domain.Model
         public string ToAddressLine()
         {
             return $"{City}{splitChar}{PostalCode}{splitChar}{Street}{splitChar}{HouseNumber}";
+
         }
+        public static string[] ToAddressArray(string addressLine)
+        {
+            string[] address = ToAddressLine(addressLine).Split("|");
+            return address;
+        } 
+        public static string ToAddressLine(string addressLine)
+        {
+            // Define a regular expression pattern to match the expected address format
+            string pattern = @"^(.*?)\s\[(.*?)\]\s-\s(.*?)\s-\s(.*?)$";
+
+            // Use Regex.Match to find matches in the input address line
+            Match match = Regex.Match(addressLine, pattern);
+
+            if (match.Success)
+            {
+                string city = match.Groups[1].Value;
+                string postalCode = match.Groups[2].Value;
+                string street = match.Groups[3].Value;
+                string houseNumber = match.Groups[4].Value;
+
+                return $"{city}{splitChar}{postalCode}{splitChar}{street}{splitChar}{houseNumber}";
+            }
+            else
+            {
+                throw new CustomerException("Invalid address format");
+            }
+        }
+
     }
 }

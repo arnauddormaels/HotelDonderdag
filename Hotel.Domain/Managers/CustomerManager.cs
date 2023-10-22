@@ -18,6 +18,25 @@ namespace Hotel.Domain.Managers
             _customerRepository = customerRepository;
         }
 
+        public void AddCustomer(string name, string email, string phone, string address)
+        {
+               
+            Customer customer = new Customer(name, new ContactInfo(email, phone, new Address(Address.ToAddressLine(address))));
+            try
+            {
+                _customerRepository.AddCustomer(customer);
+            }
+            catch(Exception ex)
+            {
+                throw new CustomerManagerException("AddCustomer", ex);
+            }
+        }
+
+        public void DeleteCustomer(int id)
+        {
+            _customerRepository.DeleteCustomer(id);
+        }
+
         public IReadOnlyList<Customer> GetCustomers(string filter)
         {
             try
@@ -26,8 +45,15 @@ namespace Hotel.Domain.Managers
             }
             catch(Exception ex)
             {
-                throw new CustomerManagerException("GetCustomers");
+                throw new CustomerManagerException("GetCustomers", ex);
             }
+        }
+
+        public void UpdateCustomer(int id, string name, string email, string phone, string address)
+        {
+            Customer customer = new Customer(id, name, new ContactInfo(email, phone, new Address(Address.ToAddressLine(address))));
+
+            _customerRepository.UpdateCustomer(customer);
         }
     }
 }
