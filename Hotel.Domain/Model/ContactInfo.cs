@@ -16,12 +16,35 @@ namespace Hotel.Domain.Model
 
         public ContactInfo(string email, string phone, Address address)
         {
-            _email = email;
-            _phone = phone;
-            _address = address;
+            Email = email;
+            Phone = phone;
+            Address = address;
         }
 
-        public string Email { get { return _email; } set { if (string.IsNullOrWhiteSpace(value)) throw new CustomerException("ci"); _email = value; } }
+        public string Email 
+        { 
+            get 
+            { 
+                return _email; 
+            } 
+            set 
+            {
+                //controle of email een @ bevat
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new CustomerException("Email is null or with space");
+                }
+                else if (!value.Contains("@"))
+                {
+                    throw new CustomerException("Email does not contain @");
+                }
+                else 
+                { 
+                    _email = value;
+                }
+                
+            } 
+        }
        
         public string Phone {
             get { return _phone; }

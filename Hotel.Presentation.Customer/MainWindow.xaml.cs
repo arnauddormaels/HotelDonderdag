@@ -47,10 +47,21 @@ public partial class MainWindow : Window
     private void MenuItemAddCustomer_Click(object sender, RoutedEventArgs e)
     {
         CustomerWindow w = new CustomerWindow(null);
-        if (w.ShowDialog()==true)
+        if (w.ShowDialog() == true)
+            {
+                try
+                {
+                     customerManager.AddCustomer(w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address);
+                     customerUIs.Add(w.CustomerUI);
+
+                }
+                catch  (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "add");
+                }
+                
+            }
                
-            customerManager.AddCustomer(w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address);
-            customerUIs.Add(w.CustomerUI);
     }
     private void MenuItemDeleteCustomer_Click(object sender, RoutedEventArgs e)
     {
@@ -77,5 +88,15 @@ public partial class MainWindow : Window
                 //w.ShowDialog();
         }
     }
-}
+
+        private void MenuItemShowMembers_Click(object sender, RoutedEventArgs e)
+        {
+            if (CustomerDataGrid.SelectedItem == null) MessageBox.Show("not selected", "show members");
+            else
+            {
+                MembersWindow w = new MembersWindow(/*(CustomerUI)CustomerDataGrid.SelectedItem*/);
+                w.ShowDialog();
+            }
+        }
+    }
 }
