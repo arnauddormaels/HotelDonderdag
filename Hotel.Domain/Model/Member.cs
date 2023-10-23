@@ -20,7 +20,7 @@ namespace Hotel.Domain.Model
             }
             set
             {
-                if (DateOnly.FromDateTime(DateTime.Now) <= value) throw new CustomerException("member");
+                if (DateOnly.FromDateTime(DateTime.Now) <= value) throw new MemberException("member");
                 _birthday = value;
             }
         }

@@ -14,6 +14,8 @@ namespace Hotel.Domain.Model
         public ContactInfo Contact { get; set; }
         private List<Member> _members = new List<Member>(); //gn dubbels
 
+
+
         public Customer(int id, string name, ContactInfo contact)
         {
             Id = id;
@@ -21,11 +23,15 @@ namespace Hotel.Domain.Model
             Contact = contact;
         }
 
+
+
         public Customer(string name, ContactInfo contact)
         {
             Name = name;
             Contact = contact;
         }
+
+
 
         public IReadOnlyList<Member> GetMembers() { return _members.AsReadOnly(); }
         public void AddMember(Member member)
@@ -35,7 +41,7 @@ namespace Hotel.Domain.Model
             else
                 throw new CustomerException("AddMember");
         }
-        public void RemoveMember(Member member) 
+        public void RemoveMember(Member member)
         {
             if (_members.Contains(member))
                 _members.Remove(member);

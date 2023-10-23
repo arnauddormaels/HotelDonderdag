@@ -48,12 +48,34 @@ namespace Hotel.Domain.Managers
                 throw new CustomerManagerException("GetCustomers", ex);
             }
         }
-
+        public Customer GetCustomerById(int id)
+        {
+            try
+            {
+                return _customerRepository.GetCustomerById(id);
+            }
+            catch(Exception ex)
+            {
+                throw new CustomerManagerException("GetCustomer", ex);
+            }
+        }
         public void UpdateCustomer(int id, string name, string email, string phone, string address)
         {
             Customer customer = new Customer(id, name, new ContactInfo(email, phone, new Address(Address.ToAddressLine(address))));
 
             _customerRepository.UpdateCustomer(customer);
+        }
+
+        public List<Member> GetMembersByCustomerId(int customerId)
+        {
+            try
+            {
+                return _customerRepository.GetCustomerById(customerId).GetMembers().ToList<Member>();
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerManagerException("GetMembersByCustomerId", ex);
+            }
         }
     }
 }

@@ -22,13 +22,14 @@ using System.Windows.Shapes;
 
 namespace Hotel.Presentation.Customer
 {
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
 {
     private ObservableCollection<CustomerUI> customerUIs=new ObservableCollection<CustomerUI>();
     private CustomerManager customerManager;
+    private MembersManager membersManager;
     private string conn = "Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
     public MainWindow()
     {
@@ -36,6 +37,7 @@ public partial class MainWindow : Window
         customerManager = new CustomerManager(RepositoryFactory.CustomerRepository);
         customerUIs =new ObservableCollection<CustomerUI>(customerManager.GetCustomers(null).Select(x => new CustomerUI(x.Id,x.Name,x.Contact.Email,x.Contact.Address.ToString(),x.Contact.Phone,x.GetMembers().Count)).ToList());
         CustomerDataGrid.ItemsSource = customerUIs;
+        //membersManager = new MembersManager(RepositoryFactory.MembersRepository);
     }
 
     private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -88,13 +90,18 @@ public partial class MainWindow : Window
                 //w.ShowDialog();
         }
     }
-
+        
         private void MenuItemShowMembers_Click(object sender, RoutedEventArgs e)
         {
             if (CustomerDataGrid.SelectedItem == null) MessageBox.Show("not selected", "show members");
             else
             {
-                MembersWindow w = new MembersWindow(/*(CustomerUI)CustomerDataGrid.SelectedItem*/);
+                //DATA WORDT NOG NIET CORRECT TERUGGEGEVEN GetMembersByCustomerId() => geeft maar 1 member ipv allemaal
+                CustomerUI customerUI = (CustomerUI)CustomerDataGrid.SelectedItem;
+
+                List<MemberUI> memberUIs = customerManager.GetMembersByCustomerId(customerUI.Id.Value).Select(m => new MemberUI(m.Name, m.Birthday.ToString())).ToList(); //List<Member>
+
+                MembersWindow w = new MembersWindow(customerUI, memberUIs);
                 w.ShowDialog();
             }
         }

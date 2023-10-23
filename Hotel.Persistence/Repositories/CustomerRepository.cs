@@ -23,24 +23,26 @@ namespace Hotel.Persistence.Repositories
         {
             try
             {
-                Dictionary<int,Customer> customers = new Dictionary<int, Customer>();
+                Dictionary<int, Customer> customers = new Dictionary<int, Customer>();
                 string sql = "select t1.id,t1.name customername,t1.email,t1.phone,t1.address,t2.name membername,t2.birthday\r\nfrom customer t1 left join (select * from member where status=1) t2 on t1.id=t2.customerId\r\nwhere t1.status=1";
-                if (!string.IsNullOrWhiteSpace(filter)) 
+                if (!string.IsNullOrWhiteSpace(filter))
                 {
                     sql += " and (t1.id like @filter or t1.name like @filter or t1.email like @filter)";
                 }
-                using(SqlConnection conn = new SqlConnection(connectionString)) 
-                using(SqlCommand cmd = conn.CreateCommand()) 
-                { 
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
                     conn.Open();
                     cmd.CommandText = sql;
-                    if (!string.IsNullOrWhiteSpace(filter)) cmd.Parameters.AddWithValue("@filter",$"%{filter}%");
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                    if (!string.IsNullOrWhiteSpace(filter)) cmd.Parameters.AddWithValue("@filter", $"%{filter}%");
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             int id = Convert.ToInt32(reader["ID"]);
-                            
+
+
+
 
                             if (!customers.ContainsKey(id))
                             {
@@ -57,7 +59,7 @@ namespace Hotel.Persistence.Repositories
                 }
                 return customers.Values.ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new CustomerRepositoryException("getcustomer", ex);
             }
@@ -81,8 +83,8 @@ namespace Hotel.Persistence.Repositories
                         cmd.Parameters.AddWithValue("@phone", customer.Contact.Phone);
                         cmd.Parameters.AddWithValue("@address", customer.Contact.Address.ToAddressLine());
                         cmd.Parameters.AddWithValue("@status", 1);
-                        int id=(int)cmd.ExecuteScalar();
-                        customer.Id = id;   
+                        int id = (int)cmd.ExecuteScalar();
+                        customer.Id = id;
                         foreach (Member member in customer.GetMembers())
                         {
                             sql = "INSERT INTO Member(customerId,name,birthday,status) VALUES (@customerid,@name,@birthday,@status)";
@@ -99,14 +101,18 @@ namespace Hotel.Persistence.Repositories
                     catch (Exception ex) { sqlTransaction.Rollback(); throw; }
                 }
             }
-            catch(Exception ex) { throw new CustomerRepositoryException("addcustomer", ex); }
+            catch (Exception ex) { throw new CustomerRepositoryException("addcustomer", ex); }
         }
+
+
 
         public void DeleteCustomer(int id)
         {
             try
             {
                 string updateSql = "UPDATE Customer SET status = 0 WHERE id = @id";
+
+
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = new SqlCommand(updateSql, conn))
@@ -122,11 +128,15 @@ namespace Hotel.Persistence.Repositories
             }
         }
 
+
+
         public void UpdateCustomer(Customer customer)
         {
             try
             {
                 string updateSql = "UPDATE Customer SET name = @name, email = @email, phone = @phone, address = @address WHERE id = @id";
+
+
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = new SqlCommand(updateSql, conn))
@@ -135,7 +145,7 @@ namespace Hotel.Persistence.Repositories
                     cmd.Parameters.AddWithValue("@name", customer.Name);
                     cmd.Parameters.AddWithValue("@email", customer.Contact.Email);
                     cmd.Parameters.AddWithValue("@phone", customer.Contact.Phone);
-                    cmd.Parameters.AddWithValue("@address", customer.Contact.Address.ToAddressLine()); 
+                    cmd.Parameters.AddWithValue("@address", customer.Contact.Address.ToAddressLine());
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -146,5 +156,42 @@ namespace Hotel.Persistence.Repositories
             }
         }
 
+        public Customer GetCustomerById(int customerId)
+        {
+            try
+            {
+                Customer customer = null;
+                string sql = "select t1.id,t1.name customername,t1.email,t1.phone,t1.address,t2.name membername,t2.birthday\r\nfrom customer t1 \r\nleft join (select * from member where status=1) t2 \r\non t1.id=t2.customerId \r\nwhere t1.status=1 and customerId = @customerId;";
+                
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@customerId", $"{customerId}");
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int id = Convert.ToInt32(reader["ID"]);
+
+                                  customer = new Customer(id, (string)reader["customername"], new ContactInfo((string)reader["email"], (string)reader["phone"], new Address((string)reader["address"])));
+                                
+                           
+                            if (!reader.IsDBNull(reader.GetOrdinal("membername")))
+                            {
+                                Member member = new Member((string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
+                                customer.AddMember(member);
+                            }
+                        }
+                    }
+                }
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerRepositoryException("GetCustomerById", ex);
+            }
+        }
     }
 }

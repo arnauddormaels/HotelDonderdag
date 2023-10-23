@@ -11,6 +11,7 @@ namespace Hotel.Domain.Interfaces
     {
         void AddCustomer(Customer customer);
         void DeleteCustomer(int id);
+        Customer GetCustomerById(int id);
         IReadOnlyList<Customer> GetCustomers(string filter);
         void UpdateCustomer(Customer customer);
     }
