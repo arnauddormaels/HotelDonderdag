@@ -174,8 +174,11 @@ namespace Hotel.Persistence.Repositories
                         while (reader.Read())
                         {
                             int id = Convert.ToInt32(reader["ID"]);
+                            if (customer == null)
+                            {
 
                                   customer = new Customer(id, (string)reader["customername"], new ContactInfo((string)reader["email"], (string)reader["phone"], new Address((string)reader["address"])));
+                            }
                                 
                            
                             if (!reader.IsDBNull(reader.GetOrdinal("membername")))

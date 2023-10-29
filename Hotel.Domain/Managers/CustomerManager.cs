@@ -77,5 +77,20 @@ namespace Hotel.Domain.Managers
                 throw new CustomerManagerException("GetMembersByCustomerId", ex);
             }
         }
+
+        public void AddMember(int customerId, string memberName, DateTime birthDate)
+        {
+            DateOnly date = DateOnly.FromDateTime(birthDate);
+            Member member = new Member(memberName, date);
+            try
+            {
+                return _customerRepository.GetCustomerById(customerId).AddMember(member.Name, member.Birthday);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

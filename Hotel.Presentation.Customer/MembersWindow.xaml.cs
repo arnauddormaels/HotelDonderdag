@@ -1,4 +1,5 @@
-﻿using Hotel.Presentation.Customer.Model;
+﻿using Hotel.Domain.Managers;
+using Hotel.Presentation.Customer.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,7 @@ namespace Hotel.Presentation.Customer
        
         public CustomerUI customerUI { get; set; }
         private ObservableCollection<MemberUI> memberUIs;
+        public CustomerManager customerManager;
         public MembersWindow(CustomerUI customerUI,List<MemberUI> membersUI)
         {
             //Members worden niet afgebeeld op het scherm. De data grid wordt wel opgevuld maar wordt niet afgebeeld.
@@ -37,7 +39,21 @@ namespace Hotel.Presentation.Customer
         private void MenuItemAddCustomer_Click(object sender, RoutedEventArgs e)
         {
 
+            MemberWindow w = new MemberWindow();
+            if (w.ShowDialog() == true)
+            {
+                try
+                {
+                    customerManager.AddMember(customerUI.Id, w.MemberUI.Name, w.MemberUI.BirthDate);
+                    memberUIs.Add(w.MemberUI);
+                    MembersDataGrid.Items.Refresh();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "add");
+                }
 
+            }
 
         }
 

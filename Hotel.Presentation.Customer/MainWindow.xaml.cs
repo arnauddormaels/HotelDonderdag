@@ -96,11 +96,20 @@ namespace Hotel.Presentation.Customer
             if (CustomerDataGrid.SelectedItem == null) MessageBox.Show("not selected", "show members");
             else
             {
-                //DATA WORDT NOG NIET CORRECT TERUGGEGEVEN GetMembersByCustomerId() => geeft maar 1 member ipv allemaal
+                
                 CustomerUI customerUI = (CustomerUI)CustomerDataGrid.SelectedItem;
-
-                List<MemberUI> memberUIs = customerManager.GetMembersByCustomerId(customerUI.Id.Value).Select(m => new MemberUI(m.Name, m.Birthday.ToString())).ToList(); //List<Member>
-
+                List<MemberUI> memberUIs;
+                
+                if (customerUI.NrOfMembers > 0)
+                {
+                //Als member bestaat dan wordt er een lijst meegegeven aan MembersWindow
+                 memberUIs = customerManager.GetMembersByCustomerId(customerUI.Id.Value).Select(m => new MemberUI(m.Name, m.Birthday.ToString())).ToList();
+                }
+                else
+                {
+                    //Lege lijst meegeven aan MembersWindow
+                    memberUIs = new List<MemberUI>();   
+                }
                 MembersWindow w = new MembersWindow(customerUI, memberUIs);
                 w.ShowDialog();
             }
