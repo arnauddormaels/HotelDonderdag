@@ -11,7 +11,7 @@ namespace Hotel.Domain.Managers
 {
     public class CustomerManager
     {
-        private ICustomerRepository _customerRepository;
+        private readonly ICustomerRepository _customerRepository;
 
         public CustomerManager(ICustomerRepository customerRepository)
         {
@@ -54,7 +54,7 @@ namespace Hotel.Domain.Managers
             {
                 return _customerRepository.GetCustomerById(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new CustomerManagerException("GetCustomer", ex);
             }

@@ -12,17 +12,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-
-
         <Grid.ColumnDefinitions>
-
-
-
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
-
-
         <DataGrid Grid.Column="0" Grid.Row="0" Name="MembersDataGrid"  Margin="5" IsReadOnly="true">
             <!--<DataGrid.Columns>
                 <DataGridTextColumn Header="Member Name" Binding="{Binding MemberName}" />

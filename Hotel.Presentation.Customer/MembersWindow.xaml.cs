@@ -24,20 +24,25 @@ namespace Hotel.Presentation.Customer
     /// </summary>
     public partial class MembersWindow : Window
     {
-       
+
         public CustomerUI customerUI { get; set; }
         private ObservableCollection<MemberUI> memberUIs;
         public CustomerManager customerManager;
         public MemberManager memberManager;
-        public MembersWindow(CustomerUI customerUI,List<MemberUI> membersUI, CustomerManager customerManager, MemberManager membersManager)
+
+        //public delegate void UpdateNrOfMembersDelegate(int customerId, int newNrOfMembers);
+        //public UpdateNrOfMembersDelegate UpdateNrOfMembersHandler;
+
+
+        public MembersWindow(CustomerUI customerUI, List<MemberUI> membersUI, CustomerManager customerManager, MemberManager membersManager)
         {
             //Members worden niet afgebeeld op het scherm. De data grid wordt wel opgevuld maar wordt niet afgebeeld.
             InitializeComponent();
             this.customerUI = customerUI;
             this.memberUIs = new ObservableCollection<MemberUI>(membersUI);
-            MembersDataGrid.ItemsSource= this.memberUIs;
+            MembersDataGrid.ItemsSource = this.memberUIs;
             this.customerManager = customerManager;
-            this.memberManager = membersManager;   
+            this.memberManager = membersManager;
         }
         private void MenuItemAddMember_Click(object sender, RoutedEventArgs e)
         {
@@ -52,12 +57,13 @@ namespace Hotel.Presentation.Customer
 
                         if (DateTime.TryParse(w.MemberUI.BirthDate, out DateTime birthDate))
                         {
-                            if (customerManager.CheckMember((int)customerUI.Id,w.MemberUI.Name, birthDate))
+                            if (customerManager.CheckMember((int)customerUI.Id, w.MemberUI.Name, birthDate))
                             {
                                 //Een controle of de member al bestaat.
-                            memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
-                            memberUIs.Add(w.MemberUI);
-                            MembersDataGrid.Items.Refresh();
+                                memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
+                                memberUIs.Add(w.MemberUI);
+                                MembersDataGrid.Items.Refresh();
+
                             }
                             else
                             {
@@ -84,7 +90,41 @@ namespace Hotel.Presentation.Customer
 
         private void MenuItemDeleteMember_Click(object sender, RoutedEventArgs e)
         {
+            MemberUI selectedMember = (MemberUI)MembersDataGrid.SelectedItem;
+            if (selectedMember == null)
+            {
+                //Als geen member geselecteerd is dan wordt er een melding gegeven.
+                MessageBox.Show("Select member you want delete");
+            }
+            else
+            {
+                //MessageBoxResult result = MessageBox.Show("Wil je doorgaan?", "Vraag", MessageBoxButton.YesNo); if (result == MessageBoxResult.Yes)
+                // {     //Code voor het geval van "Ja"}else{     // Code voor het geval van "Nee" of als het venster wordt gesloten}
+                MessageBoxResult confirmDeleteOrNot = MessageBox.Show("Delete member", "Are you sure you want to delete" + selectedMember.Name + "?", MessageBoxButton.YesNo);
+                if (confirmDeleteOrNot == MessageBoxResult.Yes)
+                {
 
+                    try
+                    {
+                        if (customerUI.Id != null)
+                        {
+                            if (DateTime.TryParse(selectedMember.BirthDate, out DateTime birthDate))
+                            {
+                                //Een controle of de member al bestaat.
+                                memberManager.DeleteMember((int)customerUI.Id, selectedMember.Id, selectedMember.Name, birthDate);
+                                memberUIs.Remove((MemberUI)MembersDataGrid.SelectedItem);
+                                MembersDataGrid.Items.Refresh();
+                            }
+                        }
+                    }
+
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "add");
+                    }
+                }
+
+            }
 
 
         }
@@ -100,35 +140,52 @@ namespace Hotel.Presentation.Customer
             }
             else
             {
-            MemberWindow w = new MemberWindow((MemberUI)MembersDataGrid.SelectedItem);
-            if (w.ShowDialog() == true)
-            {
-                try
+                MemberWindow w = new MemberWindow((MemberUI)MembersDataGrid.SelectedItem);
+                if (w.ShowDialog() == true)
                 {
-                    if (customerUI.Id != null)
+                    try
                     {
-
-                        if (DateTime.TryParse(w.MemberUI.BirthDate, out DateTime birthDate))
+                        if (customerUI.Id != null)
                         {
+
+                            if (DateTime.TryParse(w.MemberUI.BirthDate, out DateTime birthDate))
+                            {
                                 //Een controle of de member al bestaat.
-                                memberManager.UpdateMember((int)customerUI.Id, MemberUI.Id, w.MemberUI.Name, birthDate);
+                                memberManager.UpdateMember((int)customerUI.Id, w.MemberUI.Id, w.MemberUI.Name, birthDate);
                                 memberUIs[memberUIs.IndexOf((MemberUI)MembersDataGrid.SelectedItem)] = w.MemberUI;
                                 MembersDataGrid.Items.Refresh();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "add");
-                }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "add");
+                    }
 
-            }
+                }
             }
 
         }
+
+
+        //private void Window_Closed(object sender, EventArgs e)
+        //{
+        //    // Roep de delegate aan om NrOfMembers bij te werken wanneer het venster wordt gesloten.
+        //    MessageBox.Show("Hallo");
+        //    if (UpdateNrOfMembersHandler != null)
+        //    {
+        //        UpdateNrOfMembersHandler(customerUI.Id.Value, memberUIs.Count);
+        //    }
+
+        //}
+    
+    
+    
+    
+    
     }
-}
+    }

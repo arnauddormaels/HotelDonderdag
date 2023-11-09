@@ -6,7 +6,7 @@ namespace Hotel.Util
 {
     public static class RepositoryFactory
     {
-        public static ICustomerRepository CustomerRepository { get { return new CustomerRepository(ConfigurationManager.ConnectionStrings["HotelDB"].ConnectionString); } }
-        public static IMembersRepository MembersRepository { get { return new MembersRepository(ConfigurationManager.ConnectionStrings["HotelDB"].ConnectionString); } }
+        public static ICustomerRepository CustomerRepository { get { return new CustomerRepository(ConfigurationManager.ConnectionStrings["HotelDonderdag"].ConnectionString); } }
+        public static IMembersRepository MembersRepository { get { return new MembersRepository(ConfigurationManager.ConnectionStrings["HotelDonderdag"].ConnectionString); } }
     }
 }

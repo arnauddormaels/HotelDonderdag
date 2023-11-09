@@ -9,6 +9,16 @@ namespace Hotel.Domain.Model
             Name = name;
             Birthday = birthday;
         }
+
+        public Member(int id, string name, DateOnly birthday)
+        {
+            Id = id;
+            Name = name;
+            Birthday = birthday;
+        }
+
+        private int _id;
+        public int Id { get => _id; set => _id = value; }
         private string _name;
         public string Name { get { return _name; } set { if (string.IsNullOrWhiteSpace(value)) throw new CustomerException("member"); _name = value; } }
         private DateOnly _birthday;
@@ -24,6 +34,8 @@ namespace Hotel.Domain.Model
                 _birthday = value;
             }
         }
+
+
         public override bool Equals(object? obj)
         {
             return obj is Member member &&

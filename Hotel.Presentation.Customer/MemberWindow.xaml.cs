@@ -50,6 +50,7 @@ namespace Hotel.Presentation.Customer
                 string birthDate = BirthDayTextBox.Text;
                 MemberUI = new MemberUI(name,birthDate);
 
+
             }
 
             else

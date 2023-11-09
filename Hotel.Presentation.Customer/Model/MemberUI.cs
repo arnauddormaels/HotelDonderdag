@@ -15,11 +15,12 @@ namespace Hotel.Presentation.Customer.Model
             Name = name;
             BirthDate = birthDate;
         }
-        public MemberUI(string name, string birthDate, int id)
+        public MemberUI(int id,string name, string birthDate)
         {
+            Id = id;
             Name = name;
             BirthDate = birthDate;
-            Id = id;
+            
         }
         private string _name;
         public string Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }

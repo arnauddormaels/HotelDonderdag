@@ -104,8 +104,6 @@ namespace Hotel.Persistence.Repositories
             catch (Exception ex) { throw new CustomerRepositoryException("addcustomer", ex); }
         }
 
-
-
         public void DeleteCustomer(int id)
         {
             try
@@ -127,7 +125,6 @@ namespace Hotel.Persistence.Repositories
                 throw new CustomerRepositoryException("DeleteCustomer", ex);
             }
         }
-
 
 
         public void UpdateCustomer(Customer customer)

@@ -10,18 +10,40 @@ namespace Hotel.Domain.Managers
 {
     public class MemberManager
     {
-        public IMembersRepository MemberRepository { get; }
+        private readonly IMembersRepository _memberRepository;
         public MemberManager(IMembersRepository memberRepository)
         {
-            MemberRepository = memberRepository;
+            _memberRepository = memberRepository;
         }
+        public List<Member> GetMembers(int customerId) {
+            return _memberRepository.GetMembers(customerId);
+        }
+
 
         public void AddMember(int customerId, string memberName, DateTime birthDate)
         {
             //TODO: Add member
             //Mogen managers elkaar kennen?
             Member member = new Member(memberName, DateOnly.FromDateTime(birthDate));
-            MemberRepository.AddMember(customerId, member);
+            _memberRepository.AddMember(customerId, member);
+        }
+
+        public void UpdateMember(int customerId, int memberId, string name, DateTime birthDate)
+        {
+            DateOnly dateOnly = DateOnly.FromDateTime(birthDate);     //Gaat dateTime omzetten naar DateOnly
+
+            Member member = new Member(memberId, name, dateOnly);
+
+            _memberRepository.UpdateMember(customerId, member);
+
+        }
+
+        public void DeleteMember(int customerId, int memberId, string name, DateTime birthDate)
+        {
+            DateOnly dateOnly = DateOnly.FromDateTime(birthDate);
+            Member member = new Member(memberId, name, dateOnly);
+
+            _memberRepository.DeleteMember(customerId,member);
         }
     }
 }
