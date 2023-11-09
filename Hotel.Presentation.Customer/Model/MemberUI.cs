@@ -15,12 +15,20 @@ namespace Hotel.Presentation.Customer.Model
             Name = name;
             BirthDate = birthDate;
         }
-        
+        public MemberUI(string name, string birthDate, int id)
+        {
+            Name = name;
+            BirthDate = birthDate;
+            Id = id;
+        }
         private string _name;
         public string Name { get { return _name; } set { _name = value; OnPropertyChanged(); } }
 
         private string _birthDate; 
         public string BirthDate { get { return _birthDate; } set { _birthDate = value; OnPropertyChanged(); } }
+        
+        private int _id;
+        public int Id { get { return _id; } set { _id = value; OnPropertyChanged(); } }
 
 
 

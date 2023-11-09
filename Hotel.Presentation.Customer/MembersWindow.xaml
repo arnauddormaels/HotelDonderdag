@@ -32,9 +32,9 @@
 
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Add" Click="MenuItemAddCustomer_Click"></MenuItem>
-                    <MenuItem Header="Delete" Click="MenuItemDeleteCustomer_Click"></MenuItem>
-                    <MenuItem Header="Update" Click="MenuItemUpdateCustomer_Click"></MenuItem>
+                    <MenuItem Header="Add" Click="MenuItemAddMember_Click"></MenuItem>
+                    <MenuItem Header="Delete" Click="MenuItemDeleteMember_Click"></MenuItem>
+                    <MenuItem Header="Update" Click="MenuItemUpdateMember_Click"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

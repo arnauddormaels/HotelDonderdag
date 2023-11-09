@@ -29,7 +29,7 @@ namespace Hotel.Presentation.Customer
 {
     private ObservableCollection<CustomerUI> customerUIs=new ObservableCollection<CustomerUI>();
     private CustomerManager customerManager;
-    private MembersManager membersManager;
+    private MemberManager membersManager;
     private string conn = "Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
     public MainWindow()
     {
@@ -37,7 +37,7 @@ namespace Hotel.Presentation.Customer
         customerManager = new CustomerManager(RepositoryFactory.CustomerRepository);
         customerUIs =new ObservableCollection<CustomerUI>(customerManager.GetCustomers(null).Select(x => new CustomerUI(x.Id,x.Name,x.Contact.Email,x.Contact.Address.ToString(),x.Contact.Phone,x.GetMembers().Count)).ToList());
         CustomerDataGrid.ItemsSource = customerUIs;
-        //membersManager = new MembersManager(RepositoryFactory.MembersRepository);
+        membersManager = new MemberManager(RepositoryFactory.MembersRepository);
     }
 
     private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -110,7 +110,7 @@ namespace Hotel.Presentation.Customer
                     //Lege lijst meegeven aan MembersWindow
                     memberUIs = new List<MemberUI>();   
                 }
-                MembersWindow w = new MembersWindow(customerUI, memberUIs);
+                MembersWindow w = new MembersWindow(customerUI, memberUIs, customerManager, membersManager);
                 w.ShowDialog();
             }
         }

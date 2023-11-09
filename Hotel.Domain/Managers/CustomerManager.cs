@@ -78,13 +78,13 @@ namespace Hotel.Domain.Managers
             }
         }
 
-        public void AddMember(int customerId, string memberName, DateTime birthDate)
-        {
+        public bool CheckMember(int customerId, string memberName, DateTime birthDate)
+        { //Check uitvoeren in de customer of member al bestaat.
             DateOnly date = DateOnly.FromDateTime(birthDate);
             Member member = new Member(memberName, date);
             try
             {
-                return _customerRepository.GetCustomerById(customerId).AddMember(member.Name, member.Birthday);
+               return _customerRepository.GetCustomerById(customerId).CheckMember(member);
             }
             catch (Exception)
             {

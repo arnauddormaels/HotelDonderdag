@@ -17,42 +17,66 @@ namespace Hotel.Persistence.Repositories
         {
             this.connectionString = connectionString;
         }
-    /*
-        public IReadOnlyList<Customer> GetMembers(string customerId)
+
+        public void AddMember(int customerId, Member member)
         {
+            string sql = "insert into member (name, birthday, customerid, status) values (@name, @birthday, @customerid, @status)";
             try
             {
-                List<Customer> customers = new List<Customer>();
-                string sql = "select name, birthday from member where status = 1 and customerid = @customerid";
-               
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     conn.Open();
                     cmd.CommandText = sql;
-                    if (!string.IsNullOrWhiteSpace(customerId)) cmd.Parameters.AddWithValue("@customerid", $"%{customerId}%");
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            int id = Convert.ToInt32(reader["ID"]);
+                    cmd.Parameters.AddWithValue("@name", member.Name);
+                    cmd.Parameters.AddWithValue("@birthday", member.Birthday.ToDateTime(TimeOnly.MinValue));
+                    cmd.Parameters.AddWithValue("@customerid", customerId);
+                    cmd.Parameters.AddWithValue("@status", true);
 
-                            
-                            if (!reader.IsDBNull(reader.GetOrdinal("membername")))
-                            {
-                                Customer member = new Customer((string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
-                                customers[id].AddMember(member);
-                            }
-                        }
-                    }
+                    cmd.ExecuteNonQuery();
                 }
-                return customers.Values.ToList();
             }
             catch (Exception ex)
             {
-                throw new CustomerRepositoryException("getcustomer", ex);
+                throw new CustomerRepositoryException("addmember?", ex);
             }
         }
-        */
+        /*
+   public IReadOnlyList<Customer> GetMembers(string customerId)
+   {
+       try
+       {
+           List<Customer> customers = new List<Customer>();
+           string sql = "select name, birthday from member where status = 1 and customerid = @customerid";
+
+           using (SqlConnection conn = new SqlConnection(connectionString))
+           using (SqlCommand cmd = conn.CreateCommand())
+           {
+               conn.Open();
+               cmd.CommandText = sql;
+               if (!string.IsNullOrWhiteSpace(customerId)) cmd.Parameters.AddWithValue("@customerid", $"%{customerId}%");
+               using (SqlDataReader reader = cmd.ExecuteReader())
+               {
+                   while (reader.Read())
+                   {
+                       int id = Convert.ToInt32(reader["ID"]);
+
+
+                       if (!reader.IsDBNull(reader.GetOrdinal("membername")))
+                       {
+                           Customer member = new Customer((string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
+                           customers[id].AddMember(member);
+                       }
+                   }
+               }
+           }
+           return customers.Values.ToList();
+       }
+       catch (Exception ex)
+       {
+           throw new CustomerRepositoryException("getcustomer", ex);
+       }
+   }
+   */
     }
 }

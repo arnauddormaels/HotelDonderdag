@@ -34,12 +34,26 @@ namespace Hotel.Domain.Model
 
 
         public IReadOnlyList<Member> GetMembers() { return _members.AsReadOnly(); }
-        public void AddMember(int customerId, Member member)
+        public void AddMember(Member member)
         {
             if (!_members.Contains(member))
                 _members.Add(member);
             else
                 throw new CustomerException("AddMember");
+        }
+        public bool CheckMember(Member member)
+        {
+            try
+            {
+                //AddMember(new Member(name, birthday));
+                return !_members.Contains(member);
+                
+            }
+            catch (Exception)
+            {
+
+                throw new MemberException("CheckMember");
+            }
         }
         public void RemoveMember(Member member)
         {
