@@ -26,7 +26,7 @@ namespace Hotel.Presentation.Customer
     {
 
         public CustomerUI customerUI { get; set; }
-        private ObservableCollection<MemberUI> memberUIs;
+        public ObservableCollection<MemberUI> memberUIs;
         public CustomerManager customerManager;
         public MemberManager memberManager;
 
@@ -111,7 +111,7 @@ namespace Hotel.Presentation.Customer
                             if (DateTime.TryParse(selectedMember.BirthDate, out DateTime birthDate))
                             {
                                 //Een controle of de member al bestaat.
-                                memberManager.DeleteMember((int)customerUI.Id, selectedMember.Id, selectedMember.Name, birthDate);
+                                memberManager.DeleteMember((int)customerUI.Id, selectedMember.Name, birthDate);
                                 memberUIs.Remove((MemberUI)MembersDataGrid.SelectedItem);
                                 MembersDataGrid.Items.Refresh();
                             }
@@ -141,6 +141,9 @@ namespace Hotel.Presentation.Customer
             else
             {
                 MemberWindow w = new MemberWindow((MemberUI)MembersDataGrid.SelectedItem);
+                string oldName = ((MemberUI)MembersDataGrid.SelectedItem).Name;
+                string oldBirthDate = ((MemberUI)MembersDataGrid.SelectedItem).BirthDate;
+                DateTime dateTimeOldBirthDate;
                 if (w.ShowDialog() == true)
                 {
                     try
@@ -148,12 +151,13 @@ namespace Hotel.Presentation.Customer
                         if (customerUI.Id != null)
                         {
 
-                            if (DateTime.TryParse(w.MemberUI.BirthDate, out DateTime birthDate))
+                            if (DateTime.TryParse(w.MemberUI.BirthDate, out DateTime birthDate) && DateTime.TryParse(oldBirthDate, out dateTimeOldBirthDate))
                             {
                                 //Een controle of de member al bestaat.
-                                memberManager.UpdateMember((int)customerUI.Id, w.MemberUI.Id, w.MemberUI.Name, birthDate);
+                                memberManager.UpdateMember((int)customerUI.Id, oldName, dateTimeOldBirthDate, w.MemberUI.Name, birthDate);
                                 memberUIs[memberUIs.IndexOf((MemberUI)MembersDataGrid.SelectedItem)] = w.MemberUI;
-                                MembersDataGrid.Items.Refresh();
+                                MembersDataGrid.Items.Refresh(); 
+                                MessageBox.Show("Member has been succesfully added!");
                             }
                             else
                             {
@@ -171,6 +175,12 @@ namespace Hotel.Presentation.Customer
 
         }
 
+        private void DoneButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Sluit huidig venster
+            Close();
+        }
+
 
         //private void Window_Closed(object sender, EventArgs e)
         //{
@@ -182,10 +192,10 @@ namespace Hotel.Presentation.Customer
         //    }
 
         //}
-    
-    
-    
-    
-    
+
+
+
+
+
     }
     }

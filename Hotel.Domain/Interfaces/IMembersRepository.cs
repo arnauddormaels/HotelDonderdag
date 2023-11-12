@@ -11,7 +11,7 @@ namespace Hotel.Domain.Interfaces
     {
         List<Member> GetMembers(int customerId);
         void AddMember(int customerId, Member member);
-        void UpdateMember(int customerId, Member member);
+        void UpdateMember(int customerId, Member oldMember, Member newMember);
         void DeleteMember(int customerId, Member member);
     }
 }

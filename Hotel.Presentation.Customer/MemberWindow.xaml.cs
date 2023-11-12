@@ -62,7 +62,6 @@ namespace Hotel.Presentation.Customer
                 
 
             }
-            MessageBox.Show("Member has been succesfully added!");
             DialogResult = true;
 
             Close();
@@ -109,7 +108,8 @@ namespace Hotel.Presentation.Customer
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // Sluit huidig venster
+            Close();
         }
     }
 }

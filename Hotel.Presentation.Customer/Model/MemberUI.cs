@@ -17,7 +17,7 @@ namespace Hotel.Presentation.Customer.Model
         }
         public MemberUI(int id,string name, string birthDate)
         {
-            Id = id;
+            _id = id;
             Name = name;
             BirthDate = birthDate;
             
@@ -29,7 +29,7 @@ namespace Hotel.Presentation.Customer.Model
         public string BirthDate { get { return _birthDate; } set { _birthDate = value; OnPropertyChanged(); } }
         
         private int _id;
-        public int Id { get { return _id; } set { _id = value; OnPropertyChanged(); } }
+        //public int Id { get { return _id; } set { _id = value; OnPropertyChanged(); } }
 
 
 

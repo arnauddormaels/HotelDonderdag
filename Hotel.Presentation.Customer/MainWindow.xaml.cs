@@ -49,19 +49,21 @@ namespace Hotel.Presentation.Customer
         private void MenuItemAddCustomer_Click(object sender, RoutedEventArgs e)
         {
             CustomerWindow w = new CustomerWindow(null);
+            CustomerUI customerUI;
             if (w.ShowDialog() == true)
             {
                 try
                 {
-                    customerManager.AddCustomer(w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address);
+                    //Customer customer = new Customer(customerManager.AddCustomer(w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address));
+                   w.CustomerUI.Id = customerManager.AddCustomer( w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address).Id;
                     customerUIs.Add(w.CustomerUI);
-
+                    
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "add");
                 }
-
+                CustomerDataGrid.Items.Refresh();
             }
 
         }
@@ -88,6 +90,7 @@ namespace Hotel.Presentation.Customer
                     CustomerDataGrid.Items.Refresh();
                 }
                 //w.ShowDialog();
+                
             }
         }
 
@@ -111,18 +114,28 @@ namespace Hotel.Presentation.Customer
                     memberUIs = new List<MemberUI>();
                 }
                 MembersWindow w = new MembersWindow(customerUI, memberUIs, customerManager, membersManager);
-                w.ShowDialog();
 
-                
+                w.ShowDialog();
+                UpdateView(customerUI, w.memberUIs.ToList()); //Geven we mee om de verandering te krijgen.
             }
         }
 
-        public void EditNumberOfMembers(CustomerUI customerUI, int value)
+        private void UpdateView(CustomerUI customerUI, List<MemberUI> memberUIs)
         {
-            int indexOfCustomerUI = customerUIs.IndexOf(customerUI);
-            customerUIs[indexOfCustomerUI].NrOfMembers = customerUI.NrOfMembers + value;
+            //Update van onze DataGrid
+            customerUI.NrOfMembers = memberUIs.Count;
+            customerUIs[customerUIs.IndexOf((CustomerUI)CustomerDataGrid.SelectedItem)] = customerUI;
             CustomerDataGrid.ItemsSource = customerUIs;
+            CustomerDataGrid.Items.Refresh();
         }
+
+
+        //public void EditNumberOfMembers(CustomerUI customerUI, int value)
+        //{
+        //    int indexOfCustomerUI = customerUIs.IndexOf(customerUI);
+        //    customerUIs[indexOfCustomerUI].NrOfMembers = customerUI.NrOfMembers + value;
+        //    CustomerDataGrid.ItemsSource = customerUIs;
+        //}
     }
 }
 

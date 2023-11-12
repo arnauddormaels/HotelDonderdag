@@ -9,7 +9,7 @@ namespace Hotel.Domain.Interfaces
 {
     public interface ICustomerRepository
     {
-        void AddCustomer(Customer customer);
+        Customer AddCustomer(Customer customer);
         void DeleteCustomer(int id);
         Customer GetCustomerById(int id);
         IReadOnlyList<Customer> GetCustomers(string filter);

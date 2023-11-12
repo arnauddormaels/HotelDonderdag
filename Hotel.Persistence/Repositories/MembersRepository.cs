@@ -25,7 +25,7 @@ namespace Hotel.Persistence.Repositories
                 Customer customer = null;
                 List<Member> members = new List<Member>();
 
-                string sql = "select t1.id,t1.name customername,t1.email,t1.phone,t1.address,t2.name membername,t2.birthday\r\nfrom customer t1 \r\nleft join (select * from member where status=1) t2 \r\non t1.id=t2.customerId \r\nwhere t1.status=1 and customerId = @customerId;";
+                string sql = "select c.id,c.name customername,c.email,c.phone,c.address,m.name membername,m.birthday\r\nfrom customer c \r\nleft join (select * from member where status=1) m \r\non c.id=m.customerId \r\nwhere c.status=1 and customerId = @customerId;";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = conn.CreateCommand())
@@ -84,19 +84,23 @@ namespace Hotel.Persistence.Repositories
             }
         }
 
-        public void UpdateMember(int customerId, Member member)
+        public void UpdateMember(int customerId, Member oldMember, Member newMember)
         {
             try
             {
                 //TODO Vraagje Voor Tom, waarom ken hij hier id wel en in de databank gebruiken we zelfs niet eens een id.
-                string updateSql = "UPDATE Member SET name = @name, birthday = @birthday, customerId = @customerId, status = @status WHERE id = @id";
+                string updateSql = "UPDATE Member SET name = @newName, birthday = @newBirthday, customerId = @customerId, status = @status WHERE customerId = @customerId AND name = @oldName AND birthday = @oldBirthday";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = new SqlCommand(updateSql, conn))
                 {
                     conn.Open();
-                    cmd.Parameters.AddWithValue("@name", member.Name);
-                    cmd.Parameters.AddWithValue("@birthday", member.Birthday.ToDateTime(TimeOnly.MinValue));
+                    cmd.Parameters.AddWithValue("@newName", newMember.Name);
+                    cmd.Parameters.AddWithValue("@newBirthday", newMember.Birthday.ToDateTime(TimeOnly.MinValue));
+
+                    cmd.Parameters.AddWithValue("@oldName", oldMember.Name);
+                    cmd.Parameters.AddWithValue("@oldBirthday", oldMember.Birthday.ToDateTime(TimeOnly.MinValue));
+
                     cmd.Parameters.AddWithValue("@customerid", customerId);
                     cmd.Parameters.AddWithValue("@status", true);
 

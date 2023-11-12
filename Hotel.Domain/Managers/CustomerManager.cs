@@ -18,13 +18,13 @@ namespace Hotel.Domain.Managers
             _customerRepository = customerRepository;
         }
 
-        public void AddCustomer(string name, string email, string phone, string address)
+        public Customer AddCustomer(string name, string email, string phone, string address)
         {
                
             Customer customer = new Customer(name, new ContactInfo(email, phone, new Address(Address.ToAddressLine(address))));
             try
             {
-                _customerRepository.AddCustomer(customer);
+                return _customerRepository.AddCustomer(customer);
             }
             catch(Exception ex)
             {
