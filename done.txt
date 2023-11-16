@@ -1,0 +1,8 @@
+- Event window gemaakt
+- aanpassingen in constructor van organiser (fouten opgelost)
+- in login => organisorClick toegevoegd
+- Exception klasses toegevoegd aan de persistence
+- OrganiserWindow toegevoegd 	(gwn code copy paste en namen veranderd)
+- model aangevuld Event
+- model aangemaakt & aangevuld voor Description
+- model aangemaakt & aangevuld voor PriceInfo

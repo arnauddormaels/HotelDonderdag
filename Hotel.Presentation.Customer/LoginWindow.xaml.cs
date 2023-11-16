@@ -32,7 +32,8 @@ namespace Hotel.Presentation.Customer
 
         private void OrganisatorClick(object sender, RoutedEventArgs e)
         {
-
+            OrganisorWindow w = new OrganisorWindow();
+            w.Show();
         }
     }
 }

@@ -38,6 +38,7 @@ namespace Hotel.Domain.Managers
             _organisorRepository.DeleteOrganisor(id);
         }
 
+        //TO_DO
         public IReadOnlyList<Organisor> GetOrganisors(string filter)
         {
             try

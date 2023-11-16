@@ -12,7 +12,7 @@ namespace Hotel.Persistence.Repositories
 {
     public class MembersRepository : IMembersRepository
     {
-        private string connectionString; //= "@Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
+        private string connectionString;
         public MembersRepository(string connectionString)
         {
             this.connectionString = connectionString;
@@ -57,7 +57,7 @@ namespace Hotel.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                throw new CustomerRepositoryException("GetMembers", ex);
+                throw new MemberRepositoryException("GetMembers", ex);
             }
         }
         public void AddMember(int customerId, Member member)
@@ -80,7 +80,7 @@ namespace Hotel.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                throw new CustomerRepositoryException("addmember?", ex);
+                throw new MemberRepositoryException("addmember?", ex);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Hotel.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                throw new CustomerRepositoryException("Update member", ex);
+                throw new MemberRepositoryException("Update member", ex);
             }
         }
 
@@ -133,7 +133,7 @@ namespace Hotel.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                throw new CustomerRepositoryException("Error bij de repository delete Member ", ex);
+                throw new MemberRepositoryException("Error bij de repository delete Member ", ex);
             }
         }
     }

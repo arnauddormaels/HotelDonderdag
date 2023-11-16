@@ -7,6 +7,11 @@ namespace Hotel.Domain.Model
 {
     public class Organisor
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public ContactInfo Contact { get; set; }
+        private List<Event> _events = new List<Event>(); // No duplicates
+
         public Organisor(int id, string name, ContactInfo contact, List<Event> events) : this(id, name, contact)
         {
             _events = events;
@@ -23,13 +28,6 @@ namespace Hotel.Domain.Model
             Name = name;
             Contact = contact;
         }
-
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public ContactInfo Contact { get; set; }
-        private List<Event> _events = new List<Event>(); // No duplicates
-
 
         public IReadOnlyList<Event> GetEvents()
         {

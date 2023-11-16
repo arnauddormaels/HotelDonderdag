@@ -17,6 +17,11 @@ namespace Hotel.Persistence.Repositories
             this.connectionString = connectionString;
         }
 
+        public IReadOnlyList<Organisor> GetOrganisors(string filter)
+        {
+            throw new NotImplementedException();
+        }
+
         public Organisor AddOrganisor(Organisor organisor)
         {
             throw new NotImplementedException();
@@ -32,10 +37,6 @@ namespace Hotel.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<Organisor> GetOrganisors(string filter)
-        {
-            throw new NotImplementedException();
-        }
 
         public void UpdateOrganisor(Organisor organisor)
         {

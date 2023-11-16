@@ -26,14 +26,39 @@ namespace Hotel.Presentation.Customer
         private ObservableCollection<OrganisorUI> organisorUis = new ObservableCollection<OrganisorUI>();
         private OrganisorManager organisorManager;
         private Domain.Managers.EventManager eventsManager;
+        private ObservableCollection<OrganisorUI> organisorUIs;
         public OrganisorWindow()
         {
             InitializeComponent();
             organisorManager = new OrganisorManager(RepositoryFactory.OrganisorRepository);
-            organisorUIs = new ObservableCollection<CustomerUI>(organisorManager.GetCustomers(null).Select(x => new CustomerUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone, x.GetMembers().Count)).ToList());
-            OrganisorDataGrid.ItemsSource = customerUIs;
-            activitiesManager = new MemberManager(RepositoryFactory.MembersRepository);
+            organisorUIs = new ObservableCollection<OrganisorUI>(organisorManager.GetOrganisors(null).Select(x => new OrganisorUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone)).ToList());
+            OrganisorsDataGrid.ItemsSource = organisorUIs;
+            eventsManager = new Domain.Managers.EventManager(RepositoryFactory.EventRepository);
         }
 
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemShowActivities_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemUpdateOrganisor_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemDeleteOrganisor_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItemAddOrganisor_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Hotel.Persistence.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private string connectionString = "@Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
+        private string connectionString;
 
         public CustomerRepository(string connectionString)
         {

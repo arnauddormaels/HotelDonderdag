@@ -8,9 +8,33 @@ namespace Hotel.Domain.Model
 {
     public class Event
     {
-        public Event() 
-        { 
-            //TODO: tijdelijke constructor
+        private int _id;
+        private DateTime _fixture;
+        private int _nrOfPlaces;
+        private PriceInfo _priceInfo;
+        private Description _description;
+
+        public Event(DateTime fixture, int nrOfPlaces, PriceInfo priceInfo, Description description)
+        {
+            Fixture = fixture;
+            NrOfPlaces = nrOfPlaces;
+            PriceInfo = priceInfo;
+            Description = description;
         }
+
+        public Event(int id, DateTime fixture, int nrOfPlaces, PriceInfo priceInfo, Description description)
+        {
+            Id = id;
+            Fixture = fixture;
+            NrOfPlaces = nrOfPlaces;
+            PriceInfo = priceInfo;
+            Description = description;
+        }
+
+        public int Id { get => _id; set => _id = value; }
+        public DateTime Fixture { get => _fixture; set => _fixture = value; }
+        public int NrOfPlaces { get => _nrOfPlaces; set => _nrOfPlaces = value; }
+        public PriceInfo PriceInfo { get => _priceInfo; set => _priceInfo = value; }
+        public Description Description { get => _description; set => _description = value; }
     }
 }

@@ -132,12 +132,9 @@ namespace Hotel.Presentation.Customer
         }
 
 
-        //public void EditNumberOfMembers(CustomerUI customerUI, int value)
-        //{
-        //    int indexOfCustomerUI = customerUIs.IndexOf(customerUI);
-        //    customerUIs[indexOfCustomerUI].NrOfMembers = customerUI.NrOfMembers + value;
-        //    CustomerDataGrid.ItemsSource = customerUIs;
-        //}
+
+
+
     }
 }
 
