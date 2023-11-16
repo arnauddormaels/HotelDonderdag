@@ -38,6 +38,8 @@ namespace Hotel.Presentation.Customer
             customerUIs = new ObservableCollection<CustomerUI>(customerManager.GetCustomers(null).Select(x => new CustomerUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone, x.GetMembers().Count)).ToList());
             CustomerDataGrid.ItemsSource = customerUIs;
             membersManager = new MemberManager(RepositoryFactory.MembersRepository);
+           
+            
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
