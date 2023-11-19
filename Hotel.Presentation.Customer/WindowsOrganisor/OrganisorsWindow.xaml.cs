@@ -43,7 +43,9 @@ namespace Hotel.Presentation.Customer
 
         private void MenuItemShowActivities_Click(object sender, RoutedEventArgs e)
         {
-
+            //TODO 
+            EventsWindow w = new EventsWindow(OrganisorsDataGrid.SelectedItem, organisorManager, eventsManager);
+            w.Show();
         }
 
         private void MenuItemUpdateOrganisor_Click(object sender, RoutedEventArgs e)

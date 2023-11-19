@@ -8,17 +8,17 @@ namespace Hotel.Domain.Model
 {
     public class Description
     {
+        private string _name;
         private int _duration;
         private string _location;
         private string _description;
-        private string _name;
 
-        public Description(int duration, string location, string descriptionText, string name)
+        public Description(string name, int duration, string location, string descriptionText)
         {
+            Name = name;
             Duration = duration;
             Location = location;
             DescriptionText = descriptionText;
-            Name = name;
         }
 
         public int Duration { get => _duration; set => _duration = value; }

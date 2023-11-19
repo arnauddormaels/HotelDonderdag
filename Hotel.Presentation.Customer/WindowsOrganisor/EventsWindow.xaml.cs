@@ -22,15 +22,15 @@ namespace Hotel.Presentation.Customer
     /// </summary>
     public partial class EventsWindow : Window
     {
-        public OrganisorUI organisor { get; set; }
+        public OrganisorUI organisorUI { get; set; }
         public ObservableCollection<EventUI> eventUIs;
         public OrganisorManager OrganisorManager;
         public Domain.Managers.EventManager eventManager;
  
-        public EventsWindow(OrganisorUI organisor, ObservableCollection<EventUI> eventUIs, OrganisorManager organisorManager, Domain.Managers.EventManager eventManager)
+        public EventsWindow(OrganisorUI organisorUI, ObservableCollection<EventUI> eventUIs, OrganisorManager organisorManager, Domain.Managers.EventManager eventManager)
         {
             InitializeComponent();
-            this.organisor = organisor;
+            this.organisorUI = organisorUI;
             this.eventUIs = eventUIs;
             EventsDataGrid.ItemsSource = this.eventUIs;
             OrganisorManager = organisorManager;
