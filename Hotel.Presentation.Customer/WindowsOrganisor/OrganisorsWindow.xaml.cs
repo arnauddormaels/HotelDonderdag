@@ -27,11 +27,15 @@ namespace Hotel.Presentation.Customer
         private OrganisorManager organisorManager;
         private Domain.Managers.EventManager eventsManager;
         private ObservableCollection<OrganisorUI> organisorUIs;
+        //int id, DateTime fixture, int nrOfPlaces, PriceInfoUI priceInfo, DescriptionUI description
         public OrganisorWindow()
         {
             InitializeComponent();
             organisorManager = new OrganisorManager(RepositoryFactory.OrganisorRepository);
-            organisorUIs = new ObservableCollection<OrganisorUI>(organisorManager.GetOrganisors(null).Select(x => new OrganisorUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone)).ToList());
+
+            organisorUIs = new ObservableCollection<OrganisorUI>(organisorManager.GetOrganisors(null).Select(x => new OrganisorUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone)) //TODO  
+                .ToList());
+
             OrganisorsDataGrid.ItemsSource = organisorUIs;
             eventsManager = new Domain.Managers.EventManager(RepositoryFactory.EventRepository);
         }
@@ -43,9 +47,19 @@ namespace Hotel.Presentation.Customer
 
         private void MenuItemShowActivities_Click(object sender, RoutedEventArgs e)
         {
-            //TODO 
-            EventsWindow w = new EventsWindow(OrganisorsDataGrid.SelectedItem, organisorManager, eventsManager);
-            w.Show();
+            if (OrganisorsDataGrid.SelectedItem == null) MessageBox.Show("not selected", "show Activities");
+            else
+            {
+                //TODO 
+                OrganisorUI organisorUI = (OrganisorUI)OrganisorsDataGrid.SelectedItem;
+
+                List<EventUI> events = eventsManager.GetEventsByOrganisorId(organisorUI.Id.Value).Select(e => {
+                    PriceInfoUI priceInfoUI = new PriceInfoUI(e.PriceInfo.AdultPrice, e.PriceInfo.ChildPrice, e.PriceInfo.Discount, e.PriceInfo.AdultAge);
+                    DescriptionUI descriptionUI = new DescriptionUI(e.Description.Name, e.Description.DescriptionText, e.Description.Duration, e.Description.Location);
+                    return new EventUI(e.Id, e.Fixture, e.NrOfPlaces, priceInfoUI, descriptionUI); }).ToList();
+                EventsWindow w = new EventsWindow((OrganisorUI)OrganisorsDataGrid.SelectedItem, events,organisorManager, eventsManager);
+                w.Show();
+            }
         }
 
         private void MenuItemUpdateOrganisor_Click(object sender, RoutedEventArgs e)

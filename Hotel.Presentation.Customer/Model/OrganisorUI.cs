@@ -9,16 +9,26 @@ namespace Hotel.Presentation.Customer.Model
 {
     public class OrganisorUI
     {
-        public OrganisorUI(int? id, string name, string email, string address, string phone)
+        public OrganisorUI(int? id, string name, string email, string address, string phone, List<EventUI> events)
         {
             Id = id;
             Name = name;
             Email = email;
             Address = address;
             Phone = phone;
+            Events = events;
         }
         public OrganisorUI(string name, string email, string address, string phone)
         {
+            Name = name;
+            Email = email;
+            Address = address;
+            Phone = phone;
+        }
+
+        public OrganisorUI(int? id, string name, string email, string address, string phone)
+        {
+            Id = id;
             Name = name;
             Email = email;
             Address = address;
@@ -34,7 +44,8 @@ namespace Hotel.Presentation.Customer.Model
         private string _phone;
 
         public string Phone { get { return _phone; } set { _phone = value; OnPropertyChanged(); } }
-    
+        public List<EventUI> Events { get; set; }
+
         private void OnPropertyChanged(string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

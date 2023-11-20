@@ -1,0 +1,5 @@
+   
+   Vorige sql query voor OrganisorRepository:
+   string sql = "select o.id as organisorId, o.name,o.email,o.phone,o.address,e.id as activityId, e.activityName, e.description,\r\ne.fixture, e.nrOfPlaces, e.location, e.duration,\r\np.id as priceInfoId, p.adultPrice, p.childPrice, p.discount, p.adultAge\r\nfrom organisor o \r\nleft join (select * from Activity where status=1) e on o.id= organisorId \r\nleft join (select * from PriceInfo) p on e.PriceInfoId = p.id\r\nwhere o.status=1";
+
+

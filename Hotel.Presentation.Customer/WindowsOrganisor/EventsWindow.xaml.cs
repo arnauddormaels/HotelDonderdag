@@ -26,12 +26,12 @@ namespace Hotel.Presentation.Customer
         public ObservableCollection<EventUI> eventUIs;
         public OrganisorManager OrganisorManager;
         public Domain.Managers.EventManager eventManager;
- 
-        public EventsWindow(OrganisorUI organisorUI, ObservableCollection<EventUI> eventUIs, OrganisorManager organisorManager, Domain.Managers.EventManager eventManager)
+        
+        public EventsWindow(OrganisorUI organisorUI, List<EventUI> eventUIs, OrganisorManager organisorManager, Domain.Managers.EventManager eventManager)
         {
             InitializeComponent();
             this.organisorUI = organisorUI;
-            this.eventUIs = eventUIs;
+            this.eventUIs = new ObservableCollection <EventUI>(eventUIs);
             EventsDataGrid.ItemsSource = this.eventUIs;
             OrganisorManager = organisorManager;
             this.eventManager = eventManager;

@@ -1,4 +1,5 @@
 ﻿using Hotel.Domain.Interfaces;
+using Hotel.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace Hotel.Domain.Managers
         public EventManager(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
+        }
+
+
+        public List<Event> GetEventsByOrganisorId(int id)
+        {
+           return _eventRepository.GetEventsByOrganisorId(id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IEventRepository
     {
-
+        List<Event> GetEventsByOrganisorId(int id);
     }
 }
