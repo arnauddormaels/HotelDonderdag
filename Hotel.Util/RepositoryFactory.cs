@@ -10,5 +10,7 @@ namespace Hotel.Util
         public static IMembersRepository MembersRepository { get { return new MembersRepository(ConfigurationManager.ConnectionStrings["HotelDonderdag"].ConnectionString); } }
         public static IOrganisorRepository OrganisorRepository { get { return new OrganisorRepository(ConfigurationManager.ConnectionStrings["HotelDonderdag"].ConnectionString); } }
         public static IEventRepository EventRepository { get { return new EventRepository(ConfigurationManager.ConnectionStrings["HotelDonderdag"].ConnectionString); } }
+        public static IPriceInfoRepository PriceInfoRepository { get { return new PriceInfoRepository(ConfigurationManager.ConnectionStrings["HotelDonderdag"].ConnectionString); } }
+        public static IDescriptionRepository DescriptionRepository { get { return new DescriptionRepository(ConfigurationManager.ConnectionStrings["HotelDonderdag"].ConnectionString); } }
     }
 }

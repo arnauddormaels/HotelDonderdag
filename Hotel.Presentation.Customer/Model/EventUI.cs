@@ -23,7 +23,13 @@ namespace Hotel.Presentation.Customer.Model
             PriceInfo = priceInfo;
             Description = description;
         }
-
+        public EventUI(DateTime fixture, int nrOfPlaces, PriceInfoUI priceInfo, DescriptionUI description)
+        {
+            Fixture = fixture;
+            NrOfPlaces = nrOfPlaces;
+            PriceInfo = priceInfo;
+            Description = description;
+        }
 
 
     }

@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Hotel.Presentation.Customer.WindowsOrganisor"
         mc:Ignorable="d"
-        Title="EventWindow" Height="450" Width="400">
+        Title="EventWindow" Height="450" Width="674">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
-            
+
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -21,18 +21,18 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
-            
-            
+
+
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="Fix Time" Margin="5"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="Fix Time (yyyy-mm-dd hh:mm:00.000)" Margin="5"/>
         <Label Grid.Row="1" Grid.Column="0" Content="Number of places" Margin="5"/>
-        
+
         <TextBox Grid.Row="0" Grid.Column="1" Name="FixTimeTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="1" Grid.Column="1" Name="NrOfPlacesTextBox" Margin="5" VerticalAlignment="Center" />
 
         <Label Grid.Row="3" Grid.Column="0" Content="Descriptions" Margin="5"/>
         <Label Grid.Row="5" Grid.Column="0" Content="Price Info's" Margin="5"/>
-        
+
         <DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="DescriptionDataGrid"/>
         <DataGrid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="PriceInfoDataGrid"/>
         <Grid Grid.Row="7" Grid.Column="2">
@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Margin="5" Name="AddButton" Click="AddButton_Click" Content="Add"/>
-            <Button Grid.Column="1" Margin="5" Name="CancelButton" Click="CancelButton_Click" Content="Cancel"/>
+            <Button Grid.Column="1" Margin="5,5,5,0" Name="CancelButton" Click="CancelButton_Click" Content="Cancel" Height="20" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Window>

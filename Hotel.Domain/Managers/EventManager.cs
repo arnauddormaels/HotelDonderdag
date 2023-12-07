@@ -1,4 +1,5 @@
-﻿using Hotel.Domain.Interfaces;
+﻿using Hotel.Domain.Exceptions;
+using Hotel.Domain.Interfaces;
 using Hotel.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,17 @@ namespace Hotel.Domain.Managers
             _eventRepository = eventRepository;
         }
 
+        public void AddEvent(int organisorId, Event e)
+        {
+            try
+            {
+                /*return*/ _eventRepository.AddEvent(organisorId, e);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerManagerException("AddCustomer", ex);
+            }
+        }
 
         public List<Event> GetEventsByOrganisorId(int id)
         {

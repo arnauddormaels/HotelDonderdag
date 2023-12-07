@@ -55,10 +55,10 @@ namespace Hotel.Presentation.Customer
                 //TODO 
                 OrganisorUI organisorUI = (OrganisorUI)OrganisorsDataGrid.SelectedItem;
 
-                List<EventUI> events = eventsManager.GetEventsByOrganisorId(organisorUI.Id.Value).Select(e => {
-                    PriceInfoUI priceInfoUI = new PriceInfoUI(e.PriceInfo.AdultPrice, e.PriceInfo.ChildPrice, e.PriceInfo.Discount, e.PriceInfo.AdultAge);
-                    DescriptionUI descriptionUI = new DescriptionUI(e.Description.Name, e.Description.DescriptionText, e.Description.Duration, e.Description.Location);
-                    return new EventUI(e.Id, e.Fixture, e.NrOfPlaces, priceInfoUI, descriptionUI); }).ToList();
+                List<EventUI> events = eventsManager.GetEventsByOrganisorId(organisorUI.Id.Value).Select(@event => {
+                    PriceInfoUI priceInfoUI = new PriceInfoUI(@event.PriceInfo.AdultPrice, @event.PriceInfo.ChildPrice, @event.PriceInfo.Discount, @event.PriceInfo.AdultAge);
+                    DescriptionUI descriptionUI = new DescriptionUI(@event.Description.Name, @event.Description.DescriptionText, @event.Description.Duration, @event.Description.Location);
+                    return new EventUI(@event.Id, @event.Fixture, @event.NrOfPlaces, priceInfoUI, descriptionUI); }).ToList();
                 EventsWindow w = new EventsWindow((OrganisorUI)OrganisorsDataGrid.SelectedItem, events,organisorManager, eventsManager);
                 w.Show();
             }

@@ -1,9 +1,12 @@
 ﻿using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
+using Hotel.Presentation.Customer.mappers;
 using Hotel.Presentation.Customer.Model;
+using Hotel.Presentation.Customer.WindowsOrganisor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,12 +30,12 @@ namespace Hotel.Presentation.Customer
         public ObservableCollection<EventUI> eventUIs;
         public OrganisorManager OrganisorManager;
         public Domain.Managers.EventManager eventManager;
-        
+
         public EventsWindow(OrganisorUI organisorUI, List<EventUI> eventUIs, OrganisorManager organisorManager, Domain.Managers.EventManager eventManager)
         {
             InitializeComponent();
             this.organisorUI = organisorUI;
-            this.eventUIs = new ObservableCollection <EventUI>(eventUIs);
+            this.eventUIs = new ObservableCollection<EventUI>(eventUIs);
             EventsDataGrid.ItemsSource = this.eventUIs;
             OrganisorManager = organisorManager;
             this.eventManager = eventManager;
@@ -50,42 +53,37 @@ namespace Hotel.Presentation.Customer
 
         private void MenuItemAddEvent_Click(object sender, RoutedEventArgs e)
         {
-            //MemberWindow w = new MemberWindow();
-            //if (w.ShowDialog() == true)
-            //{
-            //    try
-            //    {
-            //        if (organisorUI.Id != null)
-            //        {
+            EventWindow w = new EventWindow(eventManager);
+            if (w.ShowDialog() == true)
+            {
+                try
+                {
+                    if (organisorUI.Id != null)
+                    {
 
-            //            if (DateTime.TryParse(w.MemberUI.BirthDate, out DateTime birthDate))
-            //            {
-            //                if (customerManager.CheckMember((int)customerUI.Id, w.MemberUI.Name, birthDate))
-            //                {
-            //                    //Een controle of de member al bestaat.
-            //                    memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
-            //                    memberUIs.Add(w.MemberUI);
-            //                    MembersDataGrid.Items.Refresh();
 
-            //                }
-            //                else
-            //                {
-            //                    MessageBox.Show("Member already exist");
-            //                }
-            //            }
-            //            else
-            //            {
-            //                MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
-            //            }
+                        //Hier kan je nog een controle uitvoeren voor niet hetzelfde event toe te voegen.
+                        //Een controle of het event al bestaat wordt niet uitgevoerd.
 
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message, "add");
-            //    }
+                        //                    memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
+                        eventManager.AddEvent((int)organisorUI.Id,EventMapper.MapToEventModel(w.eventUI));
 
-            //}
+                    //                    memberUIs.Add(w.MemberUI);
+                    //                    MembersDataGrid.Items.Refresh();
+                    //            }
+                    //            else
+                    //            {
+                    //                MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
+                    //            }
+
+                }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "add new event error");
+                }
+
+            }
         }
         //Al gedaan
         private void DoneButton_Click(object sender, RoutedEventArgs e)

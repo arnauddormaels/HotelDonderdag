@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Hotel.Domain.Interfaces
 {
-    public interface IEventRepository
+    public interface IDescriptionRepository
     {
-        void AddEvent(int organisorId, Event e);
-        List<Event> GetEventsByOrganisorId(int id);
+        IReadOnlyList<Description> GetDescriptions();
     }
 }

@@ -9,7 +9,15 @@
             Discount = discount;
             AdultAge = adultAge;
         }
-
+        public PriceInfoUI(int id,int adultPrice, int childPrice, int discount, int adultAge)
+        {
+            Id = id;
+            AdultPrice = adultPrice;
+            ChildPrice = childPrice;
+            Discount = discount;
+            AdultAge = adultAge;
+        }
+        public int Id { get; set; }
         public int AdultPrice { get; set; }
         public int ChildPrice { get; set; }
         public int Discount { get; set; }
