@@ -1,4 +1,5 @@
 ﻿using Hotel.Domain.Managers;
+using Hotel.Domain.Model;
 using Hotel.Presentation.Customer.Model;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,42 @@ namespace Hotel.Presentation.Customer
 
         private void MenuItemAddEvent_Click(object sender, RoutedEventArgs e)
         {
+            //MemberWindow w = new MemberWindow();
+            //if (w.ShowDialog() == true)
+            //{
+            //    try
+            //    {
+            //        if (organisorUI.Id != null)
+            //        {
 
+            //            if (DateTime.TryParse(w.MemberUI.BirthDate, out DateTime birthDate))
+            //            {
+            //                if (customerManager.CheckMember((int)customerUI.Id, w.MemberUI.Name, birthDate))
+            //                {
+            //                    //Een controle of de member al bestaat.
+            //                    memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
+            //                    memberUIs.Add(w.MemberUI);
+            //                    MembersDataGrid.Items.Refresh();
+
+            //                }
+            //                else
+            //                {
+            //                    MessageBox.Show("Member already exist");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
+            //            }
+
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message, "add");
+            //    }
+
+            //}
         }
         //Al gedaan
         private void DoneButton_Click(object sender, RoutedEventArgs e)

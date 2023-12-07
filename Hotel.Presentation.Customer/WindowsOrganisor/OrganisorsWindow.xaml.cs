@@ -1,5 +1,7 @@
 ﻿using Hotel.Domain.Managers;
+using Hotel.Domain.Model;
 using Hotel.Presentation.Customer.Model;
+using Hotel.Presentation.Customer.WindowsOrganisor;
 using Hotel.Util;
 using System;
 using System.Collections.Generic;
@@ -21,22 +23,22 @@ namespace Hotel.Presentation.Customer
     /// <summary>
     /// Interaction logic for OrganisorWindow.xaml
     /// </summary>
-    public partial class OrganisorWindow : Window
+    public partial class OrganisorsWindow : Window
     {
         private ObservableCollection<OrganisorUI> organisorUis = new ObservableCollection<OrganisorUI>();
         private OrganisorManager organisorManager;
         private Domain.Managers.EventManager eventsManager;
-        private ObservableCollection<OrganisorUI> organisorUIs;
+        
         //int id, DateTime fixture, int nrOfPlaces, PriceInfoUI priceInfo, DescriptionUI description
-        public OrganisorWindow()
+        public OrganisorsWindow()
         {
             InitializeComponent();
             organisorManager = new OrganisorManager(RepositoryFactory.OrganisorRepository);
 
-            organisorUIs = new ObservableCollection<OrganisorUI>(organisorManager.GetOrganisors(null).Select(x => new OrganisorUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone)) //TODO  
+            organisorUis = new ObservableCollection<OrganisorUI>(organisorManager.GetOrganisors(null).Select(x => new OrganisorUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone)) //TODO  
                 .ToList());
 
-            OrganisorsDataGrid.ItemsSource = organisorUIs;
+            OrganisorsDataGrid.ItemsSource = organisorUis;
             eventsManager = new Domain.Managers.EventManager(RepositoryFactory.EventRepository);
         }
 
@@ -64,17 +66,51 @@ namespace Hotel.Presentation.Customer
 
         private void MenuItemUpdateOrganisor_Click(object sender, RoutedEventArgs e)
         {
+            if (OrganisorsDataGrid.SelectedItem == null) MessageBox.Show("not selected", "update");
+            else
+            {
+                OrganisorWindow w = new OrganisorWindow((OrganisorUI)OrganisorsDataGrid.SelectedItem);
+                if (w.ShowDialog() == true)
+                {
+                    organisorManager.UpdateOrganisor(w.OrganisorUI.Id.Value, w.OrganisorUI.Name, w.OrganisorUI.Email, w.OrganisorUI.Phone, w.OrganisorUI.Address);
+                    organisorUis[organisorUis.IndexOf((OrganisorUI)OrganisorsDataGrid.SelectedItem)] = w.OrganisorUI;
+                    OrganisorsDataGrid.Items.Refresh();
+                }
+                MessageBox.Show("Organisor updated");
 
+            }
         }
 
         private void MenuItemDeleteOrganisor_Click(object sender, RoutedEventArgs e)
         {
-
+            if (OrganisorsDataGrid.SelectedItem == null) MessageBox.Show("not selected", "delete");
+            else
+            {
+                organisorManager.DeleteOrganisor(((OrganisorUI)OrganisorsDataGrid.SelectedItem).Id.Value);
+                organisorUis.Remove((OrganisorUI)OrganisorsDataGrid.SelectedItem);
+            }
         }
 
         private void MenuItemAddOrganisor_Click(object sender, RoutedEventArgs e)
         {
+            OrganisorWindow w = new OrganisorWindow(null);
+            OrganisorUI organisorUI;
+            if (w.ShowDialog() == true)
+            {
+                try
+                {
+                    //Customer customer = new Customer(customerManager.AddCustomer(w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address));
+                    w.OrganisorUI.Id = organisorManager.AddOrganisor(w.OrganisorUI.Name, w.OrganisorUI.Email, w.OrganisorUI.Phone, w.OrganisorUI.Address).Id;
+                    organisorUis.Add(w.OrganisorUI);
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "add");
+                }
+                MessageBox.Show("New organisor added");
+                OrganisorsDataGrid.Items.Refresh();
+            }
         }
     }
 }

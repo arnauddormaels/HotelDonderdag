@@ -14,5 +14,10 @@
         public int ChildPrice { get; set; }
         public int Discount { get; set; }
         public int AdultAge { get; set; }
+
+        public override string ToString()
+        {
+            return "Adult Price : " + AdultPrice + "\nChild Price : " + ChildPrice + "\nDiscount : " + Discount + "\nAdult Age : " + AdultAge;
+        }
     }
 }

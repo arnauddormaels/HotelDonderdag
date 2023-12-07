@@ -15,5 +15,9 @@
             Location = location;
         }
 
+        public override string ToString()
+        {
+            return "Name : " + Name + "\nDescription : " + Description + "\nDuration : " + Duration + "\nLocation : " + Location;
+        }
     }
 }

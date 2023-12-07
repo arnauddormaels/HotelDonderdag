@@ -68,12 +68,53 @@ namespace Hotel.Persistence.Repositories
 
         public Organisor AddOrganisor(Organisor organisor)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string sql = "INSERT INTO Organisor(name,email,phone,address,status) output INSERTED.ID VALUES(@name,@email,@phone,@address,@status)";
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    SqlTransaction sqlTransaction = conn.BeginTransaction();
+                    try
+                    {
+                        cmd.Transaction = sqlTransaction;
+                        cmd.CommandText = sql;
+                        cmd.Parameters.AddWithValue("@name", organisor.Name);
+                        cmd.Parameters.AddWithValue("@email", organisor.Contact.Email);
+                        cmd.Parameters.AddWithValue("@phone", organisor.Contact.Phone);
+                        cmd.Parameters.AddWithValue("@address", organisor.Contact.Address.ToAddressLine());
+                        cmd.Parameters.AddWithValue("@status", 1);
+                        organisor.Id = (int)cmd.ExecuteScalar();
+                        sqlTransaction.Commit();
+                    }
+                    catch (Exception ex) { sqlTransaction.Rollback(); throw; }
+                }
+            }
+            catch (Exception ex) { throw new CustomerRepositoryException("addOrganisor", ex); }
+            return organisor;
         }
 
         public void DeleteOrganisor(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string updateSql = "UPDATE Organisor SET status = 0 WHERE id = @id";
+
+
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(updateSql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerRepositoryException("DeleteOrganisor", ex);
+            }
         }
 
         public Organisor GetOrganisorById(int id)
@@ -84,7 +125,29 @@ namespace Hotel.Persistence.Repositories
 
         public void UpdateOrganisor(Organisor organisor)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                string updateSql = "UPDATE Organisor SET name = @name, email = @email, phone = @phone, address = @address WHERE id = @id";
+
+
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(updateSql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", organisor.Id);
+                    cmd.Parameters.AddWithValue("@name", organisor.Name);
+                    cmd.Parameters.AddWithValue("@email", organisor.Contact.Email);
+                    cmd.Parameters.AddWithValue("@phone", organisor.Contact.Phone);
+                    cmd.Parameters.AddWithValue("@address", organisor.Contact.Address.ToAddressLine());
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerRepositoryException("UpdateOrganisor", ex);
+            }
         }
 
     }
