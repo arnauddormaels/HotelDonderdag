@@ -34,7 +34,14 @@ namespace Hotel.Domain.Managers
 
         public void DeleteCustomer(int id)
         {
-            _customerRepository.DeleteCustomer(id);
+            try
+            {
+                _customerRepository.DeleteCustomer(id);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerManagerException("DeleteCustomer", ex);
+            }
         }
 
         public IReadOnlyList<Customer> GetCustomers(string filter)

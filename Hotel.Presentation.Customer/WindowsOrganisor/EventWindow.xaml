@@ -33,9 +33,25 @@
         <Label Grid.Row="3" Grid.Column="0" Content="Descriptions" Margin="5"/>
         <Label Grid.Row="5" Grid.Column="0" Content="Price Info's" Margin="5"/>
 
-        <DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="DescriptionDataGrid"/>
-        <DataGrid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="PriceInfoDataGrid"/>
-        <Grid Grid.Row="7" Grid.Column="2">
+        <DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="DescriptionDataGrid">
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add" Click="MenuItemAddDescription_Click"></MenuItem>
+                <MenuItem Header="Delete" Click="MenuItemDeleteDescription_Click"></MenuItem>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+        </DataGrid>
+        
+        <DataGrid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="PriceInfoDataGrid">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add" Click="MenuItemAddPriceInfo_Click"></MenuItem>
+                        <MenuItem Header="Delete" Click="MenuItemDeletePriceInfo_Click"></MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                </DataGrid>
+            
+                <Grid Grid.Row="7" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

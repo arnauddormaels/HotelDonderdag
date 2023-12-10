@@ -98,7 +98,7 @@ namespace Hotel.Presentation.Customer.WindowsOrganisor
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
     }
 }

@@ -41,11 +41,11 @@ namespace Hotel.Presentation.Customer.WindowsOrganisor
             InitializeComponent();
             descriptionManager = new DescriptionManager(RepositoryFactory.DescriptionRepository);
             priceInfoManager = new PriceInfoManager(RepositoryFactory.PriceInfoRepository);
-            descriptionUIs = new ObservableCollection<DescriptionUI> (descriptionManager.GetDescriptions().Select(description => DescriptionMapper.ToDescriptionUI(description)).ToList());
+            descriptionUIs = new ObservableCollection<DescriptionUI>(descriptionManager.GetDescriptions().Select(description => DescriptionMapper.ToDescriptionUI(description)).ToList());
             priceInfoUIs = new ObservableCollection<PriceInfoUI>(priceInfoManager.getPriceInfos().Select(priceInfo => PriceInfoMapper.ToPriceInfoUI(priceInfo)).ToList());
             //TODO
-             DescriptionDataGrid.ItemsSource = descriptionUIs;
-           PriceInfoDataGrid.ItemsSource = priceInfoUIs ;
+            DescriptionDataGrid.ItemsSource = descriptionUIs;
+            PriceInfoDataGrid.ItemsSource = priceInfoUIs;
             this.eventManager = eventManager;
         }
 
@@ -59,8 +59,8 @@ namespace Hotel.Presentation.Customer.WindowsOrganisor
                 {
                     //Nieuw
                     //wegschrijven
-                    
-                    int nrOfPlaces = int.Parse( NrOfPlacesTextBox.Text);
+
+                    int nrOfPlaces = int.Parse(NrOfPlacesTextBox.Text);
                     PriceInfoUI priceInfo = (PriceInfoUI)PriceInfoDataGrid.SelectedItem;
                     DescriptionUI description = (DescriptionUI)DescriptionDataGrid.SelectedItem;
                     eventUI = new EventUI(fixture, nrOfPlaces, priceInfo, description);
@@ -74,7 +74,7 @@ namespace Hotel.Presentation.Customer.WindowsOrganisor
                     eventUI.NrOfPlaces = int.Parse(NrOfPlacesTextBox.Text);
                     eventUI.PriceInfo = (PriceInfoUI)PriceInfoDataGrid.SelectedItem;
                     eventUI.Description = (DescriptionUI)DescriptionDataGrid.SelectedItem;
-                    
+
                 }
                 DialogResult = true;
 
@@ -106,5 +106,75 @@ namespace Hotel.Presentation.Customer.WindowsOrganisor
 
             return true;
         }
+
+
+        private void MenuItemAddDescription_Click(object sender, RoutedEventArgs e)
+        {
+            DescriptionWindow w = new DescriptionWindow();
+            if (w.ShowDialog() == true)
+            {
+                try
+                {
+                    
+                    w.DescriptionUI.Id = descriptionManager.AddDescription(DescriptionMapper.ToDescription(w.DescriptionUI));
+                    descriptionUIs.Add(w.DescriptionUI);
+                    DescriptionDataGrid.Items.Refresh();
+                    DescriptionDataGrid.SelectedItem = w.DescriptionUI;
+
+
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "add");
+                }
+
+            }
+
+        }
+        private void MenuItemDeleteDescription_Click(object sender, RoutedEventArgs e)
+        {
+            if (DescriptionDataGrid.SelectedItem == null) MessageBox.Show("not selected", "delete");
+            else
+            {
+                descriptionManager.DeleteDescription(((DescriptionUI)DescriptionDataGrid.SelectedItem).Id);
+                descriptionUIs.Remove((DescriptionUI)DescriptionDataGrid.SelectedItem);
+            }
+        }
+
+        private void MenuItemAddPriceInfo_Click(object sender, RoutedEventArgs e)
+        {
+            PriceInfoWindow w = new PriceInfoWindow();
+            if (w.ShowDialog() == true)
+            {
+                try
+                {
+                    //Een controle of de member al bestaat.
+                    w.PriceInfoUI.Id = priceInfoManager.AddPriceInfo(PriceInfoMapper.ToPriceInfo(w.PriceInfoUI));
+                    priceInfoUIs.Add(w.PriceInfoUI);
+                    PriceInfoDataGrid.Items.Refresh();
+                    PriceInfoDataGrid.SelectedItem = w.PriceInfoUI;
+
+
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "add");
+                }
+
+            }
+        }
+
+        private void MenuItemDeletePriceInfo_Click(object sender, RoutedEventArgs e)
+        {
+            if (PriceInfoDataGrid.SelectedItem == null) MessageBox.Show("not selected", "delete");
+            else
+            {
+                priceInfoManager.DeletePriceInfo(((PriceInfoUI)PriceInfoDataGrid.SelectedItem).Id);
+                priceInfoUIs.Remove((PriceInfoUI)PriceInfoDataGrid.SelectedItem);
+            }
+        }
+
     }
 }

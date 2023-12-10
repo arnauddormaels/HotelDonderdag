@@ -64,28 +64,33 @@ namespace Hotel.Persistence.Repositories
             }
         }
 
-        public void AddEvent(int organisorId, Event e)
+        public int AddEvent(int organisorId, Event e)
         {
-            //string sql = "insert into member (name, birthday, customerid, status) values (@name, @birthday, @customerid, @status)";
-            //try
-            //{
-            //    using (SqlConnection conn = new SqlConnection(connectionString))
-            //    using (SqlCommand cmd = conn.CreateCommand())
-            //    {
-            //        conn.Open();
-            //        cmd.CommandText = sql;
-            //        cmd.Parameters.AddWithValue("@name", member.Name);
-            //        cmd.Parameters.AddWithValue("@birthday", member.Birthday.ToDateTime(TimeOnly.MinValue));
-            //        cmd.Parameters.AddWithValue("@customerid", customerId);
-            //        cmd.Parameters.AddWithValue("@status", true);
+           
+            string sql = "insert into Activity (fixture, nrOfPlaces, organisorId, priceInfoId, descriptionId, status) output INSERTED.ID values (@fixture, @nrOfPlaces, @organisorId, @priceInfoId, @descriptionId, @status)";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@fixture", e.Fixture);
+                    cmd.Parameters.AddWithValue("@nrOfPlaces", e.NrOfPlaces);
+                    cmd.Parameters.AddWithValue("@organisorId", organisorId);
+                   cmd.Parameters.AddWithValue("@status", 1);
+                    cmd.Parameters.AddWithValue("@priceInfoId", e.PriceInfo.Id);
+                    cmd.Parameters.AddWithValue("@descriptionId", e.Description.Id);
 
-            //        cmd.ExecuteNonQuery();
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new MemberRepositoryException("addmember?", ex);
-            //}
+                    int eventId = (int)cmd.ExecuteScalar();
+                    e.Id = eventId;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new EventRepositoryException("addEvent", ex);
+            }
+            return e.Id;
         }
     }
 }

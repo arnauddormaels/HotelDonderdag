@@ -9,6 +9,8 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IDescriptionRepository
     {
+        int AddDescription(Description description);
+        void DeleteDescription(int id);
         IReadOnlyList<Description> GetDescriptions();
     }
 }

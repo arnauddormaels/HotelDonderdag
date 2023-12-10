@@ -9,6 +9,8 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IPriceInfoRepository
     {
+        int AddPriceInfo(PriceInfo priceInfo);
+        void DeletePriceInfo(int id);
         List<PriceInfo> getPriceInfos();
     }
 }

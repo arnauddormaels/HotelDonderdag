@@ -9,7 +9,7 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IEventRepository
     {
-        void AddEvent(int organisorId, Event e);
+        int AddEvent(int organisorId, Event e);
         List<Event> GetEventsByOrganisorId(int id);
     }
 }

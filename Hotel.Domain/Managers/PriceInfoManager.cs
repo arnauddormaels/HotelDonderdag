@@ -1,4 +1,5 @@
-﻿using Hotel.Domain.Interfaces;
+﻿using Hotel.Domain.Exceptions;
+using Hotel.Domain.Interfaces;
 using Hotel.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,31 @@ namespace Hotel.Domain.Managers
         public PriceInfoManager(IPriceInfoRepository repo)
         {
             _priceInfoRepo = repo;
+        }
+
+        public int AddPriceInfo(PriceInfo priceInfo)
+        {
+            try
+            {
+                return _priceInfoRepo.AddPriceInfo(priceInfo);
+            }
+            catch (Exception ex)
+            {
+                throw new PriceInfoManagerException("AddPriceInfo", ex);
+            }
+        }
+
+        public void DeletePriceInfo(int id)
+        {
+            try
+            {
+                _priceInfoRepo.DeletePriceInfo(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw new PriceInfoManagerException("DeletePriceInfo", ex);
+            }
         }
 
         public List<PriceInfo> getPriceInfos()

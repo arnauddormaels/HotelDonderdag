@@ -66,17 +66,20 @@ namespace Hotel.Presentation.Customer
                         //Een controle of het event al bestaat wordt niet uitgevoerd.
 
                         //                    memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
-                        eventManager.AddEvent((int)organisorUI.Id,EventMapper.MapToEventModel(w.eventUI));
+                       w.eventUI.Id = eventManager.AddEvent((int)organisorUI.Id,EventMapper.MapToEventModel(w.eventUI));
 
-                    //                    memberUIs.Add(w.MemberUI);
-                    //                    MembersDataGrid.Items.Refresh();
-                    //            }
-                    //            else
-                    //            {
-                    //                MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
-                    //            }
+                        eventUIs.Add(w.eventUI);
+                       EventsDataGrid.Items.Refresh();
 
-                }
+                        //                    memberUIs.Add(w.MemberUI);
+                        //                    MembersDataGrid.Items.Refresh();
+                        //            }
+                        //            else
+                        //            {
+                        //                MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
+                        //            }
+
+                    }
                 }
                 catch (Exception ex)
                 {
