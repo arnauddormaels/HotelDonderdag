@@ -2,6 +2,7 @@
 using Hotel.Domain.Model;
 using Hotel.Persistence.Repositories;
 using Hotel.Presentation.Customer.Model;
+using Hotel.Presentation.Customer.WindowsCustomer;
 using Hotel.Util;
 using System;
 using System.Collections.Generic;
@@ -131,10 +132,32 @@ namespace Hotel.Presentation.Customer
             CustomerDataGrid.Items.Refresh();
         }
 
+        private void MenuItemShowRegistration_Click(object sender, RoutedEventArgs e)
+        {
+            if (CustomerDataGrid.SelectedItem == null) MessageBox.Show("not selected", "Show Registrtion");
+            else
+            {
 
+                CustomerUI customerUI = (CustomerUI)CustomerDataGrid.SelectedItem;
+                List<MemberUI> memberUIs;
 
+                if (customerUI.NrOfMembers > 0)
+                {
+                    //Als member bestaat dan wordt er een lijst meegegeven aan MembersWindow
+                    memberUIs = membersManager.GetMembers(customerUI.Id.Value).Select(m => new MemberUI(m.Id, m.Name, m.Birthday.ToString())).ToList(); //customerManager.GetMembersByCustomerId(customerUI.Id.Value).Select(m => new MemberUI(m.Name, m.Birthday.ToString())).ToList(); 
+                }
+                else
+                {
+                    //Lege lijst meegeven aan MembersWindow
+                    memberUIs = new List<MemberUI>();
+                }
 
+                RegistrationsWindow w = new RegistrationsWindow(customerUI, memberUIs, customerManager, membersManager);
 
+                w.ShowDialog();
+                UpdateView(customerUI, w.memberUIs.ToList()); //Geven we mee om de verandering te krijgen.
+            }
+        }
     }
 }
 

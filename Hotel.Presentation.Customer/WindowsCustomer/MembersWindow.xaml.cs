@@ -175,11 +175,14 @@ namespace Hotel.Presentation.Customer
 
         }
 
+     
+
         private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
             // Sluit huidig venster
             Close();
         }
+
 
 
         //private void Window_Closed(object sender, EventArgs e)

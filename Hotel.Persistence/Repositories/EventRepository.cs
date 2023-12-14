@@ -66,7 +66,7 @@ namespace Hotel.Persistence.Repositories
 
         public int AddEvent(int organisorId, Event e)
         {
-           
+
             string sql = "insert into Activity (fixture, nrOfPlaces, organisorId, priceInfoId, descriptionId, status) output INSERTED.ID values (@fixture, @nrOfPlaces, @organisorId, @priceInfoId, @descriptionId, @status)";
             try
             {
@@ -78,7 +78,7 @@ namespace Hotel.Persistence.Repositories
                     cmd.Parameters.AddWithValue("@fixture", e.Fixture);
                     cmd.Parameters.AddWithValue("@nrOfPlaces", e.NrOfPlaces);
                     cmd.Parameters.AddWithValue("@organisorId", organisorId);
-                   cmd.Parameters.AddWithValue("@status", 1);
+                    cmd.Parameters.AddWithValue("@status", 1);
                     cmd.Parameters.AddWithValue("@priceInfoId", e.PriceInfo.Id);
                     cmd.Parameters.AddWithValue("@descriptionId", e.Description.Id);
 
