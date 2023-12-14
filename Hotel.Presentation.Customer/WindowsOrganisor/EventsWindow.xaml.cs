@@ -61,7 +61,7 @@ namespace Hotel.Presentation.Customer
                     if (organisorUI.Id != null)
                     {
 
-
+                        //TODO
                         //Hier kan je nog een controle uitvoeren voor niet hetzelfde event toe te voegen.
                         //Een controle of het event al bestaat wordt niet uitgevoerd.
 
