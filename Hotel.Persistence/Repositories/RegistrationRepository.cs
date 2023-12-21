@@ -4,6 +4,7 @@ using Hotel.Persistence.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,10 +14,13 @@ namespace Hotel.Persistence.Repositories
     public class RegistrationRepository : IRegistrationRepository
     {
         private string connectionString;
-
-        public RegistrationRepository(string connectionString)
+        private EventRepository eventRepository;
+        private MembersRepository membersRepository;
+        public RegistrationRepository(string connectionString, EventRepository eventRepository, MembersRepository membersRepository)
         {
+            this.eventRepository = eventRepository;
             this.connectionString = connectionString;
+            this.membersRepository = membersRepository;
         }
 
         public int AddRegistration(Registration registration)
@@ -51,27 +55,23 @@ namespace Hotel.Persistence.Repositories
         }
 
 
-        public IReadOnlyList<Registration> GetRegistrations()
+        public IReadOnlyList<RegistrationDTO> GetRegistrations(int customerId)
         {
             try
             {
-                List<Registration> registrations = new List<Registration>();
-
-                string sql = "select id, event, member from Registration;";
+                Registration registration = null;
+                string sql = "SELECT rd.id, registrationId, memberId, r.activityId\r\nFROM RegistrationDetails rd\r\njoin Registration r on r.id = rd.registrationId\r\nWHERE customerId = @customerId;";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     conn.Open();
                     cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@customerId", customerId);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            int id = Convert.ToInt32(reader["ID"]);
-
-                            registrations.Add(new Registration(id, reader["event"], reader["member"]));
-
                         }
                     }
                 }

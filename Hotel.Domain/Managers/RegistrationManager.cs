@@ -1,4 +1,6 @@
-﻿using Hotel.Domain.Interfaces;
+﻿using Hotel.Domain.DTO;
+using Hotel.Domain.Interfaces;
+using Hotel.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +13,13 @@ namespace Hotel.Domain.Managers
     {
         private readonly IEventRepository _eventRepository;
         private readonly IRegistrationRepository _registrationRepository;
+        private readonly ICustomerRepository _customerRepository;
 
-        public RegistrationManager(IEventRepository eventRepository, IRegistrationRepository registrationRepository)
+        public RegistrationManager(IEventRepository eventRepository, IRegistrationRepository registrationRepository, ICustomerRepository customerRepository)
         {
             _eventRepository = eventRepository;
             _registrationRepository = registrationRepository;
+            _customerRepository = customerRepository;
         }
 
         //public async Task Register(Guid eventId, Guid userId)
@@ -25,6 +29,24 @@ namespace Hotel.Domain.Managers
         //    await _registrationRepository.Add(registration);
         //}
 
+        public List<Registration> GetRegistrations(int customerId)
+        {
+            Customer customer = _customerRepository.GetCustomerById(customerId);
 
+            RegistrationDTO registrationDTOs = new List<RegistrationDTO>();
+            _registrationRepository.GetMembersFromRegistration(customerId);
+
+            List<Registration> registrations = _registrationRepository.GetRegistrations(customerId);
+
+            foreach (var registration in registrations)
+            {
+                Event @event = _eventRepository.Get(registration.EventId);
+                var registrationDTO = new RegistrationDTO(registration.Id, event, customer, registration.Members);
+                       registrationDTOs.Add(registrationDTO);
+                       }
+               return registrationDTOs;
+               })
+            }
+        }
     }
 }

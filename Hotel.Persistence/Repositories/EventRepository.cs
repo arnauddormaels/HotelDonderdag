@@ -20,8 +20,7 @@ namespace Hotel.Persistence.Repositories
             this.connectionString = connectionString;
         }
 
-
-        public List<Event> GetEventsByOrganisorId(int id)
+        public List<Event> GetEventsByOrganisorId(int customerId)
         {
             try
             {
@@ -35,7 +34,7 @@ namespace Hotel.Persistence.Repositories
                 {
                     conn.Open();
                     cmd.CommandText = sql;
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@id", customerId);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -53,6 +52,88 @@ namespace Hotel.Persistence.Repositories
 
 
                         return events;
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                throw new EventRepositoryException("GetEventsByOrganisorId", ex);
+            }
+        }
+        public List<Event> GetEvents() //Nog niet getest
+        {
+            try
+            {
+
+                string sql = "select a.id, fixture, nrOfPlaces, \r\ndescriptionId, activityName, duration, location, description,\r\np.id as priceInfoId,\r\nadultPrice, childPrice, adultAge, discount \r\nfrom Activity a \r\nleft join PriceInfo p on a.PriceInfoId = p.id\r\nleft join Description d on d.id = a.descriptionId";
+
+                List<Event> events = new List<Event>();
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            PriceInfo priceInfo = new PriceInfo(Convert.ToInt32(reader["priceInfoId"]), Convert.ToInt32(reader["adultPrice"]), Convert.ToInt32(reader["childPrice"]), Convert.ToInt32(reader["discount"]), Convert.ToInt32(reader["adultAge"]));
+
+                            Description description = new Description(Convert.ToInt32(reader["descriptionId"]), (string)reader["activityName"], (string)reader["location"], Convert.ToInt32(reader["duration"]), (string)reader["description"]);
+
+                            Event e = new Event(Convert.ToInt32(reader["Id"]), (DateTime)reader["fixture"], Convert.ToInt32(reader["nrOfPlaces"]), priceInfo, description);
+                            events.Add(e);
+
+                        }
+
+
+                        return events;
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                throw new EventRepositoryException("GetEventsByOrganisorId", ex);
+            }
+        }
+        public Event GetEvent(int eventId)
+        {
+            try
+            {
+
+                string sql = "select a.id, fixture, nrOfPlaces, \r\ndescriptionId, activityName, duration, location, description,\r\np.id as priceInfoId,\r\nadultPrice, childPrice, adultAge, discount \r\nfrom Activity a \r\nleft join PriceInfo p on a.PriceInfoId = p.id\r\nleft join Description d on d.id = a.descriptionId\r\nwhere a.id = @id";
+
+                Event @event = null;
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@id", eventId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            PriceInfo priceInfo = new PriceInfo(Convert.ToInt32(reader["priceInfoId"]), Convert.ToInt32(reader["adultPrice"]), Convert.ToInt32(reader["childPrice"]), Convert.ToInt32(reader["discount"]), Convert.ToInt32(reader["adultAge"]));
+
+                            Description description = new Description(Convert.ToInt32(reader["descriptionId"]), (string)reader["activityName"], (string)reader["location"], Convert.ToInt32(reader["duration"]), (string)reader["description"]);
+
+                            @event = new Event(Convert.ToInt32(reader["Id"]), (DateTime)reader["fixture"], Convert.ToInt32(reader["nrOfPlaces"]), priceInfo, description);
+
+                        }
+
+
+                        return @event;
                     }
                 }
             }

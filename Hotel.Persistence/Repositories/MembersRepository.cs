@@ -13,9 +13,11 @@ namespace Hotel.Persistence.Repositories
     public class MembersRepository : IMembersRepository
     {
         private string connectionString;
+
         public MembersRepository(string connectionString)
         {
             this.connectionString = connectionString;
+
         }
         public List<Member> GetMembers(int customerId)
         {
@@ -58,6 +60,36 @@ namespace Hotel.Persistence.Repositories
             catch (Exception ex)
             {
                 throw new MemberRepositoryException("GetMembers", ex);
+            }
+        }
+        public Member GetMember(int memberId)
+        {
+
+            try
+            {
+                Member member = null;
+
+                string sql = "select c.id,c.name customername,c.email,c.phone,c.address,m.name membername,m.birthday\r\nfrom customer c \r\nleft join (select * from member where status=1) m \r\non c.id=m.customerId \r\nwhere c.status=1 and m.id = @memberId;";
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@memberId", $"{memberId}");
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            member = new Member(Convert.ToInt32(reader["id"]),(string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
+                        }
+                    }
+                }
+                return member;
+            }
+            catch (Exception ex)
+            {
+                throw new MemberRepositoryException("GetMember", ex);
             }
         }
         public void AddMember(int customerId, Member member)
