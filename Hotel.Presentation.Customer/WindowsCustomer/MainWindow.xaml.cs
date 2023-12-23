@@ -152,10 +152,10 @@ namespace Hotel.Presentation.Customer
                     memberUIs = new List<MemberUI>();
                 }
 
-                RegistrationsWindow w = new RegistrationsWindow(customerUI, memberUIs, customerManager, membersManager);
+                RegistrationsWindow w = new RegistrationsWindow(customerUI.Id.Value);//customerUI, memberUIs, customerManager, membersManager);
 
                 w.ShowDialog();
-                UpdateView(customerUI, w.memberUIs.ToList()); //Geven we mee om de verandering te krijgen.
+                //UpdateView(customerUI, w.memberUIs.ToList()); //Geven we mee om de verandering te krijgen.
             }
         }
     }

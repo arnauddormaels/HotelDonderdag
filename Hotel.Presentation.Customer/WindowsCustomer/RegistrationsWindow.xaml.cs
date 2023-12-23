@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Hotel.Domain.Managers;
+using Hotel.Presentation.Customer.mappers;
+using Hotel.Presentation.Customer.Model;
+using Hotel.Util;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +24,16 @@ namespace Hotel.Presentation.Customer.WindowsCustomer
     /// </summary>
     public partial class RegistrationsWindow : Window
     {
-        private  registrationUIs;
+        private ObservableCollection<RegistrationUI> registrationUIs = new ObservableCollection<RegistrationUI>();
+        private RegistrationManager registrationManager;
+        private string conn = "Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
 
-        public RegistrationsWindow()
+        public RegistrationsWindow(int customerId)
         {
             InitializeComponent();
+            registrationManager = new RegistrationManager(RepositoryFactory.RegistrationRepository, RepositoryFactory.EventRepository, RepositoryFactory.MembersRepository);
+            registrationUIs = new ObservableCollection<RegistrationUI>(registrationManager.GetRegistrations(customerId).Select(x => RegistrationMapper.MapToRegistrationUI(x)).ToList());
+            RegistrationsDataGrid.ItemsSource = registrationUIs;
         }
 
         private void MenuItemAddRegistration_Click(object sender, RoutedEventArgs e)

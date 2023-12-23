@@ -16,12 +16,14 @@ namespace Hotel.Persistence.Repositories
         private string connectionString;
         private EventRepository eventRepository;
         private MembersRepository membersRepository;
+
         public RegistrationRepository(string connectionString, EventRepository eventRepository, MembersRepository membersRepository)
         {
             this.eventRepository = eventRepository;
             this.connectionString = connectionString;
             this.membersRepository = membersRepository;
         }
+
 
         public int AddRegistration(Registration registration)
         {
@@ -39,9 +41,9 @@ namespace Hotel.Persistence.Repositories
                     {
                         cmd.Transaction = sqlTransaction;
                         cmd.CommandText = sql;
-                        cmd.Parameters.AddWithValue("@registrationId", registration.Events);
-                        cmd.Parameters.AddWithValue("@activityId", registration.Members);
-                        cmd.Parameters.AddWithValue("@priceInfo", registration.PriceInfos);
+                        //cmd.Parameters.AddWithValue("@registrationId", registration.Events);
+                        //cmd.Parameters.AddWithValue("@activityId", registration.Members);
+                        //cmd.Parameters.AddWithValue("@priceInfo", registration.PriceInfos);
                         int id = (int)cmd.ExecuteScalar();
                         registration.Id = id;
 
@@ -55,10 +57,11 @@ namespace Hotel.Persistence.Repositories
         }
 
 
-        public IReadOnlyList<RegistrationDTO> GetRegistrations(int customerId)
+        public IReadOnlyList<Registration> GetRegistrations(int customerId)
         {
             try
             {
+                List<Registration> registrations = new List<Registration>();
                 Registration registration = null;
                 string sql = "SELECT rd.id, registrationId, memberId, r.activityId\r\nFROM RegistrationDetails rd\r\njoin Registration r on r.id = rd.registrationId\r\nWHERE customerId = @customerId;";
 
@@ -72,6 +75,21 @@ namespace Hotel.Persistence.Repositories
                     {
                         while (reader.Read())
                         {
+                            int registrationDetailsId = (int)reader["id"];
+                            int registrationId = (int)reader["registrationId"];
+
+                            if (registration == null || registration.Id != registrationId)
+                            {
+                                int activityId = (int)reader["activityId"];
+                                Event activity = eventRepository.GetEvent(activityId);
+                                registration = new Registration(registrationId, activity);
+                                registrations.Add(registration);
+                            }
+
+                            Member member = membersRepository.GetMember((int)reader["memberId"]);          //Maakt member aan
+                            registration.Members.Add(registrationDetailsId, member);                                          //Voeg member Toe
+
+
                         }
                     }
                 }

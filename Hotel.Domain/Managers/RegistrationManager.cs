@@ -13,13 +13,18 @@ namespace Hotel.Domain.Managers
     {
         private readonly IEventRepository _eventRepository;
         private readonly IRegistrationRepository _registrationRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IMembersRepository _memberRepository;
 
-        public RegistrationManager(IEventRepository eventRepository, IRegistrationRepository registrationRepository, ICustomerRepository customerRepository)
+        //public RegistrationManager(IRegistrationRepository registrationRepository)
+        //{
+        //    this._registrationRepository = registrationRepository;
+        //}
+
+        public RegistrationManager(IRegistrationRepository registrationRepository, IEventRepository eventRepository,  IMembersRepository memberRepository)
         {
             _eventRepository = eventRepository;
             _registrationRepository = registrationRepository;
-            _customerRepository = customerRepository;
+            _memberRepository = memberRepository;
         }
 
         //public async Task Register(Guid eventId, Guid userId)
@@ -31,22 +36,7 @@ namespace Hotel.Domain.Managers
 
         public List<Registration> GetRegistrations(int customerId)
         {
-            Customer customer = _customerRepository.GetCustomerById(customerId);
-
-            RegistrationDTO registrationDTOs = new List<RegistrationDTO>();
-            _registrationRepository.GetMembersFromRegistration(customerId);
-
-            List<Registration> registrations = _registrationRepository.GetRegistrations(customerId);
-
-            foreach (var registration in registrations)
-            {
-                Event @event = _eventRepository.Get(registration.EventId);
-                var registrationDTO = new RegistrationDTO(registration.Id, event, customer, registration.Members);
-                       registrationDTOs.Add(registrationDTO);
-                       }
-               return registrationDTOs;
-               })
-            }
+            return _registrationRepository.GetRegistrations(customerId).ToList();
         }
     }
 }

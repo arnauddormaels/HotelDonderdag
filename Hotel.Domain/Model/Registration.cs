@@ -10,20 +10,25 @@ namespace Hotel.Domain.Model
     {
 
         public int Id { get; set; }
-        public List<Member> Member { get; set; }
+        public Dictionary<int, Member> Members { get; set; } = new Dictionary<int, Member>();
         public Event Event { get; set; }
-        public Registration(List<Member> member, Event @event)
+        public Registration(Dictionary<int, Member> members, Event @event)
         {
-            Member = member;
+            Members = members;
             Event = @event;
         }
 
-        public Registration(int id, List<Member> member, Event @event)
+        public Registration(int id, Dictionary<int, Member> members, Event @event)
         {
             Id = id;
-            Member = member;
+            Members = members;
             Event = @event;
         }
-        
+
+        public Registration(int id, Event @event)
+        {
+            Id = id;
+            Event = @event;
+        }
     }
 }

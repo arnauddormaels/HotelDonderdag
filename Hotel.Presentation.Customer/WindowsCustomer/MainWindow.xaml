@@ -24,7 +24,7 @@
                     <MenuItem Header="Delete" Click="MenuItemDeleteCustomer_Click"></MenuItem>
                     <MenuItem Header="Update" Click="MenuItemUpdateCustomer_Click"></MenuItem>
                     <MenuItem Header="Show Members" Click="MenuItemShowMembers_Click"></MenuItem>
-                    <MenuItem Header="Update" Click="MenuItemShowRegistration_Click"></MenuItem>
+                    <MenuItem Header="Registrations" Click="MenuItemShowRegistration_Click"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
