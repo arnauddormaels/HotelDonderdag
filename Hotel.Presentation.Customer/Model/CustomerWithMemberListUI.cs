@@ -7,25 +7,26 @@ using System.Threading.Tasks;
 
 namespace Hotel.Presentation.Model
 {
-    public class CustomerUI : INotifyPropertyChanged
+
+    public class CustomerWithMemberListUI : INotifyPropertyChanged
     {
-        public CustomerUI(string name, string email, string address, string phone, int nrOfMembers)
+        public CustomerWithMemberListUI(string name, string email, string address, string phone, List<MemberUI> members)
         {
             Name = name;
             Email = email;
             Address = address;
             Phone = phone;
-            NrOfMembers = nrOfMembers;
+            Members = members;
         }
 
-        public CustomerUI(int? id, string name, string email, string address, string phone, int nrOfMembers)
+        public CustomerWithMemberListUI(int? id, string name, string email, string address, string phone, List<MemberUI> members)
         {
             Id = id;
             Name = name;
             Email = email;
             Address = address;
             Phone = phone;
-            NrOfMembers = nrOfMembers;
+            Members = members;
         }
 
         public int? Id { get; set; }
@@ -35,8 +36,8 @@ namespace Hotel.Presentation.Model
         public string Email { get { return _email; } set { _email = value; OnPropertyChanged(); } }
         public string Address { get; set; }
         private string _phone;
-        public string Phone { get { return _phone; } set {_phone=value; OnPropertyChanged();} }
-        public int NrOfMembers { get; set; }
+        public string Phone { get { return _phone; } set { _phone = value; OnPropertyChanged(); } }
+        public List<MemberUI> Members { get; set; }
         private void OnPropertyChanged(string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -44,3 +45,4 @@ namespace Hotel.Presentation.Model
         public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
+

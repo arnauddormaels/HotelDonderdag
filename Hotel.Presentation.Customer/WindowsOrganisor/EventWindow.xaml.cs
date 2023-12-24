@@ -1,7 +1,7 @@
 ﻿using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
-using Hotel.Presentation.Customer.mappers;
-using Hotel.Presentation.Customer.Model;
+using Hotel.Presentation.mappers;
+using Hotel.Presentation.Model;
 using Hotel.Util;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using EventManager = Hotel.Domain.Managers.EventManager;
 
-namespace Hotel.Presentation.Customer.WindowsOrganisor
+namespace Hotel.Presentation.WindowsOrganisor
 {
     /// <summary>
     /// Interaction logic for EventWindow.xaml

@@ -159,7 +159,7 @@ namespace Hotel.Persistence.Repositories
             try
             {
                 Customer customer = null;
-                string sql = "select t1.id,t1.name customername,t1.email,t1.phone,t1.address,t2.name membername,t2.birthday\r\nfrom customer t1 \r\nleft join (select * from member where status=1) t2 \r\non t1.id=t2.customerId \r\nwhere t1.status=1 and Id = @customerId;";
+                string sql = "select t1.id,t1.name customername,t1.email,t1.phone,t1.address,t2.name membername,t2.birthday, t2.id AS memberid\r\nfrom customer t1 \r\nleft join (select * from member where status=1) t2 \r\non t1.id=t2.customerId \r\nwhere t1.status=1 and t1.Id = @customerId;";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = conn.CreateCommand())
@@ -171,7 +171,7 @@ namespace Hotel.Persistence.Repositories
                     {
                         while (reader.Read())
                         {
-                            int id = Convert.ToInt32(reader["ID"]);
+                            int id = Convert.ToInt32(reader["Id"]);
                             if (customer == null)
                             {
 
@@ -181,7 +181,7 @@ namespace Hotel.Persistence.Repositories
 
                             if (!reader.IsDBNull(reader.GetOrdinal("membername")))
                             {
-                                Member member = new Member((string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
+                                Member member = new Member(Convert.ToInt32(reader["memberid"]) ,(string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
                                 customer.AddMember(member);
                             }
                         }

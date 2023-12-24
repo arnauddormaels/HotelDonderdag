@@ -9,7 +9,7 @@ namespace Hotel.Domain.Interfaces
 {
     public interface IRegistrationRepository
     {
-        public int AddRegistration(Registration registration);
+        public void AddRegistration(int customerId, int eventId, List<int> memberIds);
         public IReadOnlyList<Registration> GetRegistrations(int customerId);
         public void DeleteRegistration(int id);
     }

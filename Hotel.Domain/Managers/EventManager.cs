@@ -30,9 +30,34 @@ namespace Hotel.Domain.Managers
             }
         }
 
-        public List<Event> GetEventsByOrganisorId(int id)
+        public IReadOnlyList<Event> GetEvents()
         {
-           return _eventRepository.GetEventsByOrganisorId(id);
+            try
+            {
+                return _eventRepository.GetEvents();
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerManagerException("GetEvents", ex);
+            }
+
+        }
+
+    public List<Event> GetEventsByOrganisorId(int id)
+    {
+        return _eventRepository.GetEventsByOrganisorId(id);
+    }
+
+        public Boolean UpdateStatusEvent(Event @event)
+        {
+            try
+            {
+                return _eventRepository.UpdateStatusEvent(@event);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomerManagerException("UpdateStatusEvent", ex);
+            }
         }
     }
 }

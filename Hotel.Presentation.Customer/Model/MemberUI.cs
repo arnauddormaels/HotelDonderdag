@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Presentation.Customer.Model
+namespace Hotel.Presentation.Model
 {
     public class MemberUI : INotifyPropertyChanged
     {
@@ -29,7 +29,7 @@ namespace Hotel.Presentation.Customer.Model
         public string BirthDate { get { return _birthDate; } set { _birthDate = value; OnPropertyChanged(); } }
         
         private int _id;
-        //public int Id { get { return _id; } set { _id = value; OnPropertyChanged(); } }
+        public int Id { get { return _id; } set { _id = value; OnPropertyChanged(); } }
 
 
 

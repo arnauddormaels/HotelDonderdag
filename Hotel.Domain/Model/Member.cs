@@ -46,5 +46,9 @@ namespace Hotel.Domain.Model
         {
             return HashCode.Combine(_name, _birthday);
         }
+        public int CalculateAge()
+        {
+            return DateOnly.FromDateTime(DateTime.Now).Year - Birthday.Year;
+        }
     }
 }

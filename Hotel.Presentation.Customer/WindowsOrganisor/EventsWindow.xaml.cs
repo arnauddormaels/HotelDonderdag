@@ -1,8 +1,8 @@
 ﻿using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
-using Hotel.Presentation.Customer.mappers;
-using Hotel.Presentation.Customer.Model;
-using Hotel.Presentation.Customer.WindowsOrganisor;
+using Hotel.Presentation.mappers;
+using Hotel.Presentation.Model;
+using Hotel.Presentation.WindowsOrganisor;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,7 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Hotel.Presentation.Customer
+namespace Hotel.Presentation
 {
     /// <summary>
     /// Interaction logic for EventsWindow.xaml
@@ -41,15 +41,18 @@ namespace Hotel.Presentation.Customer
             this.eventManager = eventManager;
         }
 
-        private void MenuItemUpdateEvent_Click(object sender, RoutedEventArgs e)
+        private void MenuItemDisableEvent_Click(object sender, RoutedEventArgs e)
         {
+            if(EventsDataGrid.SelectedItem != null)
+            {
+                EventUI eventUI = (EventUI)EventsDataGrid.SelectedItem;
+                eventUI.Status = !eventUI.Status;
+                eventUI.Status = eventManager.UpdateStatusEvent(EventMapper.MapToEventModel(eventUI));
+                EventsDataGrid.Items.Refresh();
+            }
 
         }
 
-        private void MenuItemDeleteEvent_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void MenuItemAddEvent_Click(object sender, RoutedEventArgs e)
         {

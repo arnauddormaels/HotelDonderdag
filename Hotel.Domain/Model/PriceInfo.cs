@@ -36,5 +36,17 @@ namespace Hotel.Domain.Model
         public int Discount { get => _discount; set => _discount = value; }
         public int AdultAge { get => _adultAge; set => _adultAge = value; }
         public int Id { get => _id; set => _id = value; }
+
+        public int CalculatePrice(int age)
+        {
+            if (age >= AdultAge)
+            {
+                return AdultPrice - AdultPrice * Discount/100;
+            }
+            else
+            {
+                return ChildPrice - ChildPrice * Discount / 100;
+            }
+        }
     }
 }

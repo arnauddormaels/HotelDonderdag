@@ -1,4 +1,4 @@
-﻿namespace Hotel.Presentation.Customer.Model
+﻿namespace Hotel.Presentation.Model
 {
     public class DescriptionUI
     {

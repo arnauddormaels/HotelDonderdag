@@ -1,12 +1,12 @@
 ﻿using Hotel.Domain.Model;
-using Hotel.Presentation.Customer.Model;
+using Hotel.Presentation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Presentation.Customer.mappers
+namespace Hotel.Presentation.mappers
 {
     public static class RegistrationMapper
     {
@@ -26,7 +26,7 @@ namespace Hotel.Presentation.Customer.mappers
             }
 
             EventUI eventUI = EventMapper.MapToEventUI(registration.Event);
-            return new RegistrationUI(registration.Id, membersUI, eventUI);
+            return new RegistrationUI(registration.Id, membersUI, eventUI, registration.CalculateTotalPrice());
         }
 
     }

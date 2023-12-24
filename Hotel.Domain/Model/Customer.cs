@@ -14,8 +14,6 @@ namespace Hotel.Domain.Model
         public ContactInfo Contact { get; set; }
         private List<Member> _members = new List<Member>(); //gn dubbels
 
-
-
         public Customer(int id, string name, ContactInfo contact)
         {
             Id = id;
@@ -23,14 +21,11 @@ namespace Hotel.Domain.Model
             Contact = contact;
         }
 
-
-
         public Customer(string name, ContactInfo contact)
         {
             Name = name;
             Contact = contact;
         }
-
 
 
         public IReadOnlyList<Member> GetMembers() { return _members.AsReadOnly(); }

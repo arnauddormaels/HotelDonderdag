@@ -1,11 +1,11 @@
-﻿<Window x:Class="Hotel.Presentation.Customer.WindowsCustomer.RegistrationWindow"
+﻿<Window x:Class="Hotel.Presentation.WindowsCustomer.RegistrationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Hotel.Presentation.Customer.WindowsCustomer"
+        xmlns:local="clr-namespace:Hotel.Presentation.WindowsCustomer"
         mc:Ignorable="d"
-        Title="RegistrationWindow" Height="450" Width="800">
+        Title="RegistrationWindow" Height="auto" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -16,12 +16,12 @@
         </Grid.RowDefinitions>
         
         <Label Grid.Row="0" Content="Event" Margin="5"/>
-        <DataGrid Grid.Row="1" Margin="5" Name="EventDataGrid">
+        <DataGrid Grid.Row="1" Margin="5" Name="EventDataGrid" Height="350" Width="auto">
             
         </DataGrid>
 
         <Label Grid.Row="2" Content="Members" Margin="5"/>
-        <DataGrid Grid.Row="3" Margin="5" Name="MembersDataGrid">
+        <DataGrid Grid.Row="3" Margin="5" Name="MembersDataGrid" Height="auto" Width="auto" SelectionMode="Extended">
             
         </DataGrid>
         

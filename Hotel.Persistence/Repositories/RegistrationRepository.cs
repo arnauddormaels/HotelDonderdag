@@ -25,13 +25,15 @@ namespace Hotel.Persistence.Repositories
         }
 
 
-        public int AddRegistration(Registration registration)
+        public void AddRegistration(int customerId, int eventId, List<int> memberIds)
         {
             try
             {
+                int RegistrationId;
                 //TODO
-                string sql = "INSERT INTO Registration(activityId) output INSERTED.ID VALUES(@activityId)";
-                string sql2 = "INSERT INTO RegistrationDetails(registrationId, name,birthday,customerId) output VALUES(@registrationId, @name,@birthday,@customerId))";
+                string sql1 = "INSERT INTO Registration(activityId,customerId) output INSERTED.ID VALUES(@activityId,@customerId)";
+                string sql2 = "INSERT INTO RegistrationDetails(registrationId, memberId) VALUES(@registrationId, @memberId)";
+
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
@@ -40,20 +42,35 @@ namespace Hotel.Persistence.Repositories
                     try
                     {
                         cmd.Transaction = sqlTransaction;
-                        cmd.CommandText = sql;
-                        //cmd.Parameters.AddWithValue("@registrationId", registration.Events);
-                        //cmd.Parameters.AddWithValue("@activityId", registration.Members);
-                        //cmd.Parameters.AddWithValue("@priceInfo", registration.PriceInfos);
+                        cmd.CommandText = sql1;
+                        cmd.Parameters.AddWithValue("@activityId", eventId);
+                        cmd.Parameters.AddWithValue("@customerId", customerId);
                         int id = (int)cmd.ExecuteScalar();
-                        registration.Id = id;
+                        RegistrationId = id;
+
+                        cmd.Parameters.AddWithValue("@registrationId", RegistrationId);
+                        cmd.Parameters.Add("@memberid", System.Data.SqlDbType.Int);
+                        foreach (int memberId in memberIds)
+                        {
+                            cmd.CommandText = sql2;
+                            //cmd.Parameters.AddWithValue("@memberId", memberId);
+                            cmd.Parameters["@memberId"].Value = memberId;
+                            cmd.ExecuteNonQuery();
+                        }
 
                         sqlTransaction.Commit();
                     }
-                    catch (Exception ex) { sqlTransaction.Rollback(); throw; }
+                    catch (Exception ex)
+                    {
+                        sqlTransaction.Rollback();
+                        throw new RegistrationRepositoryException("Rollback in addRegistration", ex);
+                    }
                 }
             }
-            catch (Exception ex) { throw new RegistrationRepositoryException("addRegistration", ex); }
-            return registration.Id;
+            catch (Exception ex)
+            {
+                throw new RegistrationRepositoryException("addRegistration", ex);
+            }
         }
 
 
@@ -101,24 +118,54 @@ namespace Hotel.Persistence.Repositories
             }
         }
 
-        public void DeleteRegistration(int id)
+        public void DeleteRegistration(int registrationId)
         {
             try
             {
-                string updateSql = "DELETE FROM  Registration WHERE id = @id";
+                string sql1 = "DELETE FROM RegistrationDetails WHERE registrationId = @registrationId;";
+                string sql2 = "DELETE FROM Registration WHERE id = @registrationId;";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand(updateSql, conn))
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    try
+                    {
+                        conn.Open();
+                        cmd.Transaction = conn.BeginTransaction();
+                        cmd.CommandText = sql1;
+                        cmd.CommandText+= sql2;
+
+                        cmd.Parameters.AddWithValue("@registrationId", registrationId);
+                        cmd.ExecuteNonQuery();
+
+                       /* using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                cmd.Parameters.AddWithValue("@registrationId", registrationId);
+                            }
+                        }*/
+
+
+
+
+                        cmd.Transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new RegistrationRepositoryException("Rollback in DeleteRegistration", ex);
+                    }
                 }
             }
             catch (Exception ex)
             {
+
                 throw new RegistrationRepositoryException("DeleteRegistration", ex);
             }
         }
+
+
+
     }
 }

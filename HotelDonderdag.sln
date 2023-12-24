@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Domain", "Hotel.Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{07B6A256-6EC8-42DF-8D40-78AD290D6FB1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Presentation.Customer", "Hotel.Presentation.Customer\Hotel.Presentation.Customer.csproj", "{1A0EDE39-648C-4820-BD04-FB46093B37F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Presentation", "Hotel.Presentation.Customer\Hotel.Presentation.csproj", "{1A0EDE39-648C-4820-BD04-FB46093B37F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hotel.Persistence", "Hotel.Persistence\Hotel.Persistence.csproj", "{A3C02B6A-08F8-4BB7-8FE9-914E702A013C}"
 EndProject

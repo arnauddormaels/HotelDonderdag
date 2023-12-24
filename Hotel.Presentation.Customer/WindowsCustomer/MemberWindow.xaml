@@ -1,11 +1,11 @@
-﻿<Window x:Class="Hotel.Presentation.Customer.MemberWindow"
+﻿<Window x:Class="Hotel.Presentation.MemberWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Hotel.Presentation.Customer"
+        xmlns:local="clr-namespace:Hotel.Presentation"
         mc:Ignorable="d"
-        Title="MemberWindow" Height="150" Width="350">
+        Title="MemberWindow" Height="150" Width="450">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -19,7 +19,7 @@
 
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Content="Name" Margin="5"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="BirthDay" Margin="5"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="BirthDay (dd/mm/yyyy)" Margin="5"/>
 
         <TextBox Grid.Row="0" Grid.Column="1" Name="NameTextBox" Margin="5" VerticalAlignment="Center" />
         <TextBox Grid.Row="1" Grid.Column="1" Name="BirthDayTextBox" Margin="5" VerticalAlignment="Center" />

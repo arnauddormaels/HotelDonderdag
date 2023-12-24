@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace Hotel.Presentation.Customer.Model
+    
+namespace Hotel.Presentation.Model
 {
     public class RegistrationUI
     {
@@ -17,14 +17,15 @@ namespace Hotel.Presentation.Customer.Model
         public int eventDuration { get => eventUI.Description.Duration; }
         public DateTime eventDate { get => eventUI.Fixture; }
         public string eventLocation { get => eventUI.Description.Location; }
-        public int TotalPrice { get => 50; } // TODO Prijs berekenen 
+        public int TotalPrice { get; set; } // TODO Prijs berekenen 
 
-        public RegistrationUI(int id, Dictionary<int, MemberUI> members, EventUI @event)
+        public RegistrationUI(int id, Dictionary<int, MemberUI> members, EventUI @event, int totalPrice)
         {
             Id = id;
             this.memberUIs = members;
             this.eventUI = @event;
             MapRegistrationUI(members);
+            this.TotalPrice = totalPrice;
 
         }
 

@@ -1,12 +1,12 @@
 ﻿using Hotel.Domain.Model;
-using Hotel.Presentation.Customer.Model;
+using Hotel.Presentation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hotel.Presentation.Customer.mappers
+namespace Hotel.Presentation.mappers
 {
     public static class EventMapper
     {
@@ -15,6 +15,10 @@ namespace Hotel.Presentation.Customer.mappers
         {
             PriceInfoUI priceInfoUI = new PriceInfoUI(e.PriceInfo.AdultPrice, e.PriceInfo.ChildPrice, e.PriceInfo.Discount, e.PriceInfo.AdultAge);
             DescriptionUI descriptionUI = new DescriptionUI(e.Description.Name, e.Description.DescriptionText, e.Description.Duration, e.Description.Location);
+            if (e.Status == null)
+            {
+                return new EventUI(e.Id, e.Fixture, e.NrOfPlaces,e.Status, priceInfoUI, descriptionUI);
+            }
             return new EventUI(e.Id, e.Fixture, e.NrOfPlaces, priceInfoUI, descriptionUI);
         }
 

@@ -2,6 +2,7 @@
 using Hotel.Domain.Interfaces;
 using Hotel.Domain.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,38 @@ namespace Hotel.Domain.Managers
         //    this._registrationRepository = registrationRepository;
         //}
 
-        public RegistrationManager(IRegistrationRepository registrationRepository, IEventRepository eventRepository,  IMembersRepository memberRepository)
+        public RegistrationManager(IRegistrationRepository registrationRepository, IEventRepository eventRepository, IMembersRepository memberRepository)
         {
             _eventRepository = eventRepository;
             _registrationRepository = registrationRepository;
             _memberRepository = memberRepository;
+        }
+
+
+        public void AddRegistration(int customerId, int eventId, List<int> memberIds)
+        {
+            try
+            {
+                _registrationRepository.AddRegistration(customerId, eventId, memberIds);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public void DeleteRegistration(int id)
+        {
+            try
+            {
+                _registrationRepository.DeleteRegistration(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }   
         }
 
         //public async Task Register(Guid eventId, Guid userId)
