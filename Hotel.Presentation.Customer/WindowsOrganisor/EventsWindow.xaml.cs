@@ -41,7 +41,7 @@ namespace Hotel.Presentation
             this.eventManager = eventManager;
         }
 
-        private void MenuItemDisableEvent_Click(object sender, RoutedEventArgs e)
+        private void MenuItemUpdateStatusEvent_Click(object sender, RoutedEventArgs e)
         {
             if(EventsDataGrid.SelectedItem != null)
             {
@@ -50,6 +50,10 @@ namespace Hotel.Presentation
                 eventUI.Status = status;
                 eventUI.Status = eventManager.UpdateStatusEvent(EventMapper.MapToEventModel(eventUI));
                 EventsDataGrid.Items.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Please select event to update the status");
             }
 
         }
