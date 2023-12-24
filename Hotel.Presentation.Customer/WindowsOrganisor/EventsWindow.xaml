@@ -20,7 +20,7 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add" Click="MenuItemAddEvent_Click"></MenuItem>
-                    <MenuItem Header="Disable/Activate event" Click="MenuItemDisableEvent_Click"></MenuItem>
+                    <MenuItem Header="Disable/Activate event" Click="MenuItemUpdateStatusEvent_Click"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
