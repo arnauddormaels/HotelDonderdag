@@ -46,7 +46,8 @@ namespace Hotel.Presentation
             if(EventsDataGrid.SelectedItem != null)
             {
                 EventUI eventUI = (EventUI)EventsDataGrid.SelectedItem;
-                eventUI.Status = !eventUI.Status;
+                bool status = eventUI.Status?false:true;
+                eventUI.Status = status;
                 eventUI.Status = eventManager.UpdateStatusEvent(EventMapper.MapToEventModel(eventUI));
                 EventsDataGrid.Items.Refresh();
             }

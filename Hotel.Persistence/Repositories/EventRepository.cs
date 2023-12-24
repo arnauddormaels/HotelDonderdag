@@ -47,10 +47,7 @@ namespace Hotel.Persistence.Repositories
 
                             Event e = new Event(Convert.ToInt32(reader["Id"]), (DateTime)reader["fixture"], Convert.ToInt32(reader["nrOfPlaces"]), priceInfo, description, (Boolean)reader["status"]);
                             events.Add(e);
-
                         }
-
-
                         return events;
                     }
                 }

@@ -12,7 +12,7 @@ namespace Hotel.Presentation.Model
         public int Id { get; set; }
         public DateTime Fixture { get; set; }
         public int NrOfPlaces { get; set; }
-        public Boolean Status { get; set; }
+        public bool Status { get; set; }
         public PriceInfoUI PriceInfo { get; set; }
         public DescriptionUI Description { get; set; }
         

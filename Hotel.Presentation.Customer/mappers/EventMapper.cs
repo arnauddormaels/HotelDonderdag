@@ -15,7 +15,7 @@ namespace Hotel.Presentation.mappers
         {
             PriceInfoUI priceInfoUI = new PriceInfoUI(e.PriceInfo.AdultPrice, e.PriceInfo.ChildPrice, e.PriceInfo.Discount, e.PriceInfo.AdultAge);
             DescriptionUI descriptionUI = new DescriptionUI(e.Description.Name, e.Description.DescriptionText, e.Description.Duration, e.Description.Location);
-            if (e.Status == null)
+            if (e.Status != null)
             {
                 return new EventUI(e.Id, e.Fixture, e.NrOfPlaces,e.Status, priceInfoUI, descriptionUI);
             }
@@ -36,6 +36,11 @@ namespace Hotel.Presentation.mappers
             {
                  priceInfo = new PriceInfo(e.PriceInfo.Id, e.PriceInfo.AdultPrice, e.PriceInfo.ChildPrice, e.PriceInfo.Discount, e.PriceInfo.AdultAge);
                  description = new Description(e.Description.Id, e.Description.Name, e.Description.Description, e.Description.Duration, e.Description.Location);
+
+                if (e.Status != null){
+                    return new Event(e.Id, e.Fixture, e.NrOfPlaces, priceInfo, description, e.Status);
+                }
+
             }
             return new Event(e.Fixture, e.NrOfPlaces, priceInfo, description);
         }

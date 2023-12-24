@@ -1,5 +1,6 @@
 ﻿using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
+using Hotel.Presentation.mappers;
 using Hotel.Presentation.Model;
 using Hotel.Presentation.WindowsOrganisor;
 using Hotel.Util;
@@ -54,11 +55,12 @@ namespace Hotel.Presentation
             {
                 //TODO 
                 OrganisorUI organisorUI = (OrganisorUI)OrganisorsDataGrid.SelectedItem;
-
-                List<EventUI> events = eventsManager.GetEventsByOrganisorId(organisorUI.Id.Value).Select(@event => {
+                List<EventUI> events = eventsManager.GetEventsByOrganisorId(organisorUI.Id.Value).Select(@event => EventMapper.MapToEventUI(@event)).ToList();
+                /*List<EventUI> events = eventsManager.GetEventsByOrganisorId(organisorUI.Id.Value).Select(@event => {
                     PriceInfoUI priceInfoUI = new PriceInfoUI(@event.PriceInfo.AdultPrice, @event.PriceInfo.ChildPrice, @event.PriceInfo.Discount, @event.PriceInfo.AdultAge);
                     DescriptionUI descriptionUI = new DescriptionUI(@event.Description.Name, @event.Description.DescriptionText, @event.Description.Duration, @event.Description.Location);
-                    return new EventUI(@event.Id, @event.Fixture, @event.NrOfPlaces, priceInfoUI, descriptionUI); }).ToList();
+                return new EventUI(@event.Id, @event.Fixture, @event.NrOfPlaces, priceInfoUI, descriptionUI); }).ToList();
+                */
                 EventsWindow w = new EventsWindow((OrganisorUI)OrganisorsDataGrid.SelectedItem, events,organisorManager, eventsManager);
                 w.Show();
             }
