@@ -103,7 +103,7 @@ namespace Hotel.Persistence.Repositories
                                 registrations.Add(registration);
                             }
 
-                            Member member = membersRepository.GetMember((int)reader["memberId"]);          //Maakt member aan
+                            Member member = membersRepository.GetMemberWithoutFilterOnMemberStatus((int)reader["memberId"]);          //Maakt member aan
                             registration.Members.Add(registrationDetailsId, member);                                          //Voeg member Toe
 
 
@@ -138,13 +138,6 @@ namespace Hotel.Persistence.Repositories
                         cmd.Parameters.AddWithValue("@registrationId", registrationId);
                         cmd.ExecuteNonQuery();
 
-                       /* using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                cmd.Parameters.AddWithValue("@registrationId", registrationId);
-                            }
-                        }*/
 
 
 

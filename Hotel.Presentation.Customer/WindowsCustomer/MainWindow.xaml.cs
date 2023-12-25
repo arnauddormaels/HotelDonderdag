@@ -1,6 +1,7 @@
 ﻿using Hotel.Domain.Managers;
 using Hotel.Domain.Model;
 using Hotel.Persistence.Repositories;
+using Hotel.Presentation.mappers;
 using Hotel.Presentation.Model;
 using Hotel.Presentation.WindowsCustomer;
 using Hotel.Util;
@@ -57,7 +58,6 @@ namespace Hotel.Presentation
             {
                 try
                 {
-                    //Customer customer = new Customer(customerManager.AddCustomer(w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address));
                    w.CustomerUI.Id = customerManager.AddCustomer( w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address).Id;
                     customerUIs.Add(w.CustomerUI);
                     
@@ -92,7 +92,6 @@ namespace Hotel.Presentation
                     customerUIs[customerUIs.IndexOf((CustomerUI)CustomerDataGrid.SelectedItem)] = w.CustomerUI;
                     CustomerDataGrid.Items.Refresh();
                 }
-                //w.ShowDialog();
                 
             }
         }
@@ -109,7 +108,7 @@ namespace Hotel.Presentation
                 if (customerUI.NrOfMembers > 0)
                 {
                     //Als member bestaat dan wordt er een lijst meegegeven aan MembersWindow
-                    memberUIs = membersManager.GetMembers(customerUI.Id.Value).Select(m => new MemberUI(m.Id, m.Name, m.Birthday.ToString())).ToList(); //customerManager.GetMembersByCustomerId(customerUI.Id.Value).Select(m => new MemberUI(m.Name, m.Birthday.ToString())).ToList(); 
+                    memberUIs = membersManager.GetMembers(customerUI.Id.Value).Select(m => MemberMapper.MapToMemberUI(m)).ToList(); 
                 }
                 else
                 {
@@ -144,91 +143,18 @@ namespace Hotel.Presentation
                 if (customerUI.NrOfMembers > 0)
                 {
                     //Als member bestaat dan wordt er een lijst meegegeven aan MembersWindow
-                    memberUIs = membersManager.GetMembers(customerUI.Id.Value).Select(m => new MemberUI(m.Id, m.Name, m.Birthday.ToString())).ToList(); //customerManager.GetMembersByCustomerId(customerUI.Id.Value).Select(m => new MemberUI(m.Name, m.Birthday.ToString())).ToList(); 
+                    memberUIs = membersManager.GetMembers(customerUI.Id.Value).Select(m => new MemberUI(m.Id, m.Name, m.Birthday.ToString())).ToList();
+                    RegistrationsWindow w = new RegistrationsWindow(customerUI.Id.Value);
+
+                w.ShowDialog();
                 }
                 else
                 {
                     //Lege lijst meegeven aan MembersWindow
-                    memberUIs = new List<MemberUI>();
+                    MessageBox.Show("You don't have any members, please create a member first.");
                 }
 
-                RegistrationsWindow w = new RegistrationsWindow(customerUI.Id.Value);//customerUI, memberUIs, customerManager, membersManager);
-
-                w.ShowDialog();
-                //UpdateView(customerUI, w.memberUIs.ToList()); //Geven we mee om de verandering te krijgen.
             }
         }
     }
 }
-
-
-
-
-
-//public partial class MembersWindow : Window
-//{
-//    public delegate void UpdateNrOfMembersDelegate(int customerId, int newNrOfMembers);
-//    public UpdateNrOfMembersDelegate UpdateNrOfMembersHandler;
-
-//    // ... Andere code ...
-
-//    private void Window_Closed(object sender, EventArgs e)
-//    {
-//        // Roep de delegate aan om NrOfMembers bij te werken wanneer het venster wordt gesloten.
-//        if (UpdateNrOfMembersHandler != null)
-//        {
-//            UpdateNrOfMembersHandler(customerUI.Id.Value, memberUIs.Count);
-//        }
-
-
-
-
-
-//        public partial class MainWindow : Window
-//    {
-//        private ObservableCollection<CustomerUI> customerUIs = new ObservableCollection<CustomerUI>();
-
-//        // ... Andere code ...
-
-//        private void MenuItemShowMembers_Click(object sender, RoutedEventArgs e)
-//        {
-//            if (CustomerDataGrid.SelectedItem == null)
-//            {
-//                MessageBox.Show("not selected", "show members");
-//            }
-//            else
-//            {
-//                CustomerUI customerUI = (CustomerUI)CustomerDataGrid.SelectedItem;
-//                List<MemberUI> memberUIs;
-
-//                if (customerUI.NrOfMembers > 0)
-//                {
-//                    memberUIs = customerManager.GetMembersByCustomerId(customerUI.Id.Value).Select(m => new MemberUI(m.Name, m.Birthday.ToString())).ToList();
-//                }
-//                else
-//                {
-//                    memberUIs = new List<MemberUI>();
-//                }
-
-//                MembersWindow w = new MembersWindow(customerUI, memberUIs, customerManager, membersManager);
-
-//                // Voeg een event handler toe voor het bijwerken van NrOfMembers.
-//                w.UpdateNrOfMembersHandler += UpdateNrOfMembers;
-//                w.ShowDialog();
-//            }
-//        }
-
-//        // Implementeer de methode om NrOfMembers bij te werken.
-//        private void UpdateNrOfMembers(int customerId, int newNrOfMembers)
-//        {
-//            var customerUI = customerUIs.FirstOrDefault(c => c.Id == customerId);
-//            if (customerUI != null)
-//            {
-//                customerUI.NrOfMembers = newNrOfMembers;
-//            }
-//        }
-//    }
-
-
-
-   

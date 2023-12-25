@@ -34,12 +34,12 @@ namespace Hotel.Presentation
         //public UpdateNrOfMembersDelegate UpdateNrOfMembersHandler;
 
 
-        public MembersWindow(CustomerUI customerUI, List<MemberUI> membersUI, CustomerManager customerManager, MemberManager membersManager)
+        public MembersWindow(CustomerUI customerUI, List<MemberUI> membersUIs, CustomerManager customerManager, MemberManager membersManager)
         {
             //Members worden niet afgebeeld op het scherm. De data grid wordt wel opgevuld maar wordt niet afgebeeld.
             InitializeComponent();
             this.customerUI = customerUI;
-            this.memberUIs = new ObservableCollection<MemberUI>(membersUI);
+            this.memberUIs = new ObservableCollection<MemberUI>(membersUIs);
             MembersDataGrid.ItemsSource = this.memberUIs;
             this.customerManager = customerManager;
             this.memberManager = membersManager;
@@ -60,7 +60,7 @@ namespace Hotel.Presentation
                             if (customerManager.CheckMember((int)customerUI.Id, w.MemberUI.Name, birthDate))
                             {
                                 //Een controle of de member al bestaat.
-                                memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
+                                w.MemberUI.Id = memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
                                 memberUIs.Add(w.MemberUI);
                                 MembersDataGrid.Items.Refresh();
 

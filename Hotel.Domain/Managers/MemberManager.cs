@@ -20,11 +20,11 @@ namespace Hotel.Domain.Managers
         }
 
 
-        public void AddMember(int customerId, string memberName, DateTime birthDate)
+        public int AddMember(int customerId, string memberName, DateTime birthDate)
         {
             
             Member member = new Member(memberName, DateOnly.FromDateTime(birthDate));
-            _memberRepository.AddMember(customerId, member);
+           return _memberRepository.AddMember(customerId, member);
         }
 
         public void UpdateMember(int customerId, string oldName, DateTime oldBirthDate, string name, DateTime birthDate)

@@ -27,7 +27,7 @@ namespace Hotel.Persistence.Repositories
                 Customer customer = null;
                 List<Member> members = new List<Member>();
 
-                string sql = "select c.id,c.name customername,c.email,c.phone,c.address,m.name membername,m.birthday\r\nfrom customer c \r\nleft join (select * from member where status=1) m \r\non c.id=m.customerId \r\nwhere c.status=1 and customerId = @customerId;";
+                string sql = "select c.id,c.name customername,c.email,c.phone,c.address,m.name membername,m.birthday, m.id as memberId \r\nfrom customer c \r\nleft join (select * from member where status=1) m \r\non c.id=m.customerId \r\nwhere c.status=1 and customerId = @customerId;";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = conn.CreateCommand())
@@ -49,7 +49,7 @@ namespace Hotel.Persistence.Repositories
 
                             if (!reader.IsDBNull(reader.GetOrdinal("membername")))
                             {
-                                Member member = new Member((string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
+                                Member member = new Member(Convert.ToInt32(reader["memberId"]), (string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
                                 members.Add(member);
                             }
                         }
@@ -62,6 +62,8 @@ namespace Hotel.Persistence.Repositories
                 throw new MemberRepositoryException("GetMembers", ex);
             }
         }
+
+     
         public Member GetMember(int memberId)
         {
 
@@ -92,9 +94,42 @@ namespace Hotel.Persistence.Repositories
                 throw new MemberRepositoryException("GetMember", ex);
             }
         }
-        public void AddMember(int customerId, Member member)
+
+        public Member GetMemberWithoutFilterOnMemberStatus(int memberId)
         {
-            string sql = "insert into member (name, birthday, customerid, status) values (@name, @birthday, @customerid, @status)";
+
+            try
+            {
+                Member member = null;
+
+                string sql = "select c.id,c.name customername,c.email,c.phone,c.address,m.name membername,m.birthday\r\nfrom customer c \r\nleft join (select * from member ) m \r\non c.id=m.customerId \r\nwhere c.status=1 and m.id = @memberId;";
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    conn.Open();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddWithValue("@memberId", $"{memberId}");
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            member = new Member(Convert.ToInt32(reader["id"]), (string)reader["membername"], DateOnly.FromDateTime((DateTime)reader["birthday"]));
+                        }
+                    }
+                }
+                return member;
+            }
+            catch (Exception ex)
+            {
+                throw new MemberRepositoryException("GetMember", ex);
+            }
+        }
+
+        public int AddMember(int customerId, Member member)
+        {
+            string sql = "insert into member (name, birthday, customerid, status) output INSERTED.ID values (@name, @birthday, @customerid, @status)";
+            int memberId;
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -107,13 +142,14 @@ namespace Hotel.Persistence.Repositories
                     cmd.Parameters.AddWithValue("@customerid", customerId);
                     cmd.Parameters.AddWithValue("@status", true);
 
-                    cmd.ExecuteNonQuery();
+                   memberId = (int) cmd.ExecuteScalar();
                 }
             }
             catch (Exception ex)
             {
                 throw new MemberRepositoryException("addmember?", ex);
             }
+            return memberId;
         }
 
         public void UpdateMember(int customerId, Member oldMember, Member newMember)

@@ -95,24 +95,38 @@ namespace Hotel.Persistence.Repositories
             return organisor;
         }
 
-        public void DeleteOrganisor(int id)
+        public void DeleteOrganisor(int organisorId)
         {
             try
             {
-                string updateSql = "UPDATE Organisor SET status = 0 WHERE id = @id";
+                string updateSql1 = "UPDATE Organisor SET status = 0 WHERE id = @organisorId;";
+                string updateSql2 = "UPDATE Activity SET status = 0 WHERE organisorId= @organisorId;";
 
 
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand(updateSql, conn))
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
+                    try
+                    {
+                        conn.Open();
+                        cmd.Transaction = conn.BeginTransaction();
+                        cmd.CommandText = updateSql1;
+                        cmd.CommandText += updateSql2;
+                        cmd.Parameters.AddWithValue("@organisorId", organisorId);
+                        cmd.ExecuteNonQuery();
+
+                        cmd.Transaction.Commit();
+                    }catch(Exception ex)
+                    {
+                        cmd.Transaction.Rollback();
+                        throw new CustomerRepositoryException("DeleteOrganisor rolback", ex);
+                    }
                 }
             }
             catch (Exception ex)
             {
+                
                 throw new CustomerRepositoryException("DeleteOrganisor", ex);
             }
         }

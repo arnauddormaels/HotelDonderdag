@@ -13,7 +13,7 @@ namespace Hotel.Presentation.mappers
         public static RegistrationUI MapToRegistrationUI(Registration registration)
         {
             Dictionary<int, MemberUI> membersUI = new Dictionary<int, MemberUI>();
-            if (registration.Members != null)
+            if (registration.Members.Count != null)
             {
                 foreach (var keyValuePair in registration.Members)
                 {
