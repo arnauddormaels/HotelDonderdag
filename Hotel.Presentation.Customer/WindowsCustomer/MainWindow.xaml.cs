@@ -47,6 +47,7 @@ namespace Hotel.Presentation
         {
             customerUIs = new ObservableCollection<CustomerUI>(customerManager.GetCustomers(SearchTextBox.Text).Select(x => new CustomerUI(x.Id, x.Name, x.Contact.Email, x.Contact.Address.ToString(), x.Contact.Phone, x.GetMembers().Count)).ToList());
             CustomerDataGrid.ItemsSource = customerUIs;
+        
         }
 
         private void MenuItemAddCustomer_Click(object sender, RoutedEventArgs e)
