@@ -46,15 +46,6 @@ namespace Hotel.Persistence.Repositories
                                 Organisor organisor = new Organisor(id, (string)reader["name"], new ContactInfo((string)reader["email"], (string)reader["phone"], new Address((string)reader["address"])));
                                 organisors.Add(id, organisor);
                             }
-                            //if (!reader.IsDBNull(reader.GetOrdinal("activityId")))
-                            //{
-                            //    PriceInfo priceInfo = new PriceInfo(Convert.ToInt32(reader["priceInfoId"]), Convert.ToInt32(reader["adultPrice"]), Convert.ToInt32(reader["childPrice"]), Convert.ToInt32(reader["discount"]), Convert.ToInt32(reader["adultAge"]));
-
-                            //    Description description = new Description((string)reader["activityName"], Convert.ToInt32(reader["duration"]),(string)reader["location"], (string)reader["description"]);
-
-                            //    Event e = new Event(Convert.ToInt32(reader["activityId"]),(string)reader["activityName"], (DateTime)reader["fixture"],Convert.ToInt32(reader["nrOfPlaces"]),priceInfo, description);
-                            //    organisors[id].AddEvent(e);
-                            //}
                         }
                     }
                 }

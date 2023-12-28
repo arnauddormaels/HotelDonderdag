@@ -105,16 +105,14 @@ namespace Hotel.Domain.Model
                 throw new PriceInfoException("Object is not a PriceInfo");
             }
             PriceInfo priceInfo = (PriceInfo)obj;
-            
+
             return priceInfo != null &&
                     _id == priceInfo._id &&
                    _adultPrice == priceInfo._adultPrice &&
                    _childPrice == priceInfo._childPrice &&
                    _discount == priceInfo._discount &&
-                   _adultAge == priceInfo._adultAge; 
-            
-
-        
+                   _adultAge == priceInfo._adultAge;
         }
+
     }
 }

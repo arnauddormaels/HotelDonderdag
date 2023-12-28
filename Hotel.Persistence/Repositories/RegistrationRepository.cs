@@ -30,7 +30,7 @@ namespace Hotel.Persistence.Repositories
             try
             {
                 int RegistrationId;
-                //TODO
+                
                 string sql1 = "INSERT INTO Registration(activityId,customerId) output INSERTED.ID VALUES(@activityId,@customerId)";
                 string sql2 = "INSERT INTO RegistrationDetails(registrationId, memberId) VALUES(@registrationId, @memberId)";
 
@@ -53,7 +53,6 @@ namespace Hotel.Persistence.Repositories
                         foreach (int memberId in memberIds)
                         {
                             cmd.CommandText = sql2;
-                            //cmd.Parameters.AddWithValue("@memberId", memberId);
                             cmd.Parameters["@memberId"].Value = memberId;
                             cmd.ExecuteNonQuery();
                         }
@@ -106,7 +105,6 @@ namespace Hotel.Persistence.Repositories
                             Member member = membersRepository.GetMemberWithoutFilterOnMemberStatus((int)reader["memberId"]);          //Maakt member aan
                             registration.Members.Add(registrationDetailsId, member);                                          //Voeg member Toe
 
-
                         }
                     }
                 }
@@ -137,10 +135,6 @@ namespace Hotel.Persistence.Repositories
 
                         cmd.Parameters.AddWithValue("@registrationId", registrationId);
                         cmd.ExecuteNonQuery();
-
-
-
-
 
                         cmd.Transaction.Commit();
                     }

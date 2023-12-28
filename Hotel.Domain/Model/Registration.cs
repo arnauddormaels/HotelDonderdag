@@ -12,7 +12,6 @@ namespace Hotel.Domain.Model
         public int Id { get; set; }
         public Dictionary<int, Member> Members { get; set; } = new Dictionary<int, Member>();
         public Event Event { get; set; }
-        //public int TotalPrice { get; set; }
         public Registration(Dictionary<int, Member> members, Event @event)
         {
             Members = members;

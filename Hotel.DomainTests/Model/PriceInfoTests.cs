@@ -35,7 +35,6 @@ namespace Hotel.Domain.Model.Tests
         [Fact]
         public void CalculatePrice_ReturnsCorrectPriceForAdult()
         {
-            // Arrange
             int adultPrice = 100;
             int childPrice = 50;
             int discount = 10;
@@ -43,18 +42,15 @@ namespace Hotel.Domain.Model.Tests
 
             PriceInfo priceInfo = new PriceInfo(adultPrice, childPrice, discount, adultAge);
 
-            // Act
             int adultGuestAge = 25;
             int adultGuestPrice = priceInfo.CalculatePrice(adultGuestAge);
 
-            // Assert
             Assert.Equal(adultPrice - (adultPrice * discount / 100), adultGuestPrice);
         }
 
         [Fact]
         public void CalculatePrice_ReturnsCorrectPriceForChild()
         {
-            // Arrange
             int adultPrice = 100;
             int childPrice = 50;
             int discount = 10;
@@ -62,18 +58,15 @@ namespace Hotel.Domain.Model.Tests
 
             PriceInfo priceInfo = new PriceInfo(adultPrice, childPrice, discount, adultAge);
 
-            // Act
             int childGuestAge = 10;
             int childGuestPrice = priceInfo.CalculatePrice(childGuestAge);
 
-            // Assert
             Assert.Equal(childPrice - (childPrice * discount / 100), childGuestPrice);
         }
 
         [Fact]
         public void CalculatePrice_ReturnsCorrectPriceForEqualAdultAge()
         {
-            // Arrange
             int adultPrice = 100;
             int childPrice = 50;
             int discount = 10;
@@ -81,60 +74,50 @@ namespace Hotel.Domain.Model.Tests
 
             PriceInfo priceInfo = new PriceInfo(adultPrice, childPrice, discount, adultAge);
 
-            // Act
             int guestAge = 18;
             int guestPrice = priceInfo.CalculatePrice(guestAge);
 
-            // Assert
             Assert.Equal(adultPrice - (adultPrice * discount / 100), guestPrice);
         }
 
         [Fact]
         public void CalculatePrice_NegativeAdultPrice_ThrowPriceInfoException()
         {
-            // Arrange
             int adultPrice = -100;
             int childPrice = 50;
             int discount = 10;
             int adultAge = 18;
 
-            //Act
             Assert.Throws<PriceInfoException>(() => new PriceInfo(adultPrice,childPrice,discount,adultAge));
 
         }
         public void CalculatePrice_NegativeChildPrice_ThrowPriceInfoException()
         {
-            // Arrange
             int adultPrice = 100;
             int childPrice = -50;
             int discount = 10;
             int adultAge = 18;
 
-            //Act
             Assert.Throws<PriceInfoException>(() => new PriceInfo(adultPrice, childPrice, discount, adultAge));
 
         }
         public void CalculatePrice_NegativeDiscount_ThrowPriceInfoException()
         {
-            // Arrange
             int adultPrice = 100;
             int childPrice = 50;
             int discount = -10;
             int adultAge = 18;
 
-            //Act
             Assert.Throws<PriceInfoException>(() => new PriceInfo(adultPrice, childPrice, discount, adultAge));
 
         }
         public void CalculatePrice_NegativeAdultAge_ThrowPriceInfoException()
         {
-            // Arrange
             int adultPrice = 100;
             int childPrice = 50;
             int discount = 10;
             int adultAge = -18;
 
-            //Act
             Assert.Throws<PriceInfoException>(() => new PriceInfo(adultPrice, childPrice, discount, adultAge));
 
         }

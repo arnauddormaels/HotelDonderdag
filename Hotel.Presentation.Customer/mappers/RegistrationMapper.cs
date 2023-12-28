@@ -31,34 +31,3 @@ namespace Hotel.Presentation.mappers
 
     }
 }
-
-
-
-/*List{
-member,
-member
-member;
-}
-
-
-
-Dictionary{
-{
-    key: 1,
-    value: member
- },
-    {
-        key: 2,
-        value: member
-    },
-    {
-        key: 3,
-        value: member
-    }
-
-}
-
-
-
-
-*/

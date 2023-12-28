@@ -35,20 +35,21 @@ namespace Hotel.Domain.Model
             }
         }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_name, _birthday);
+        }
+
+        public int CalculateAge()
+        {
+            return DateOnly.FromDateTime(DateTime.Now).Year - Birthday.Year;
+        }
 
         public override bool Equals(object? obj)
         {
             return obj is Member member &&
                    _name == member._name &&
                    _birthday.Equals(member._birthday);
-        }
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(_name, _birthday);
-        }
-        public int CalculateAge()
-        {
-            return DateOnly.FromDateTime(DateTime.Now).Year - Birthday.Year;
         }
     }
 }

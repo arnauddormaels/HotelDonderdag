@@ -98,8 +98,6 @@ namespace Hotel.Presentation
             }
             else
             {
-                //MessageBoxResult result = MessageBox.Show("Wil je doorgaan?", "Vraag", MessageBoxButton.YesNo); if (result == MessageBoxResult.Yes)
-                // {     //Code voor het geval van "Ja"}else{     // Code voor het geval van "Nee" of als het venster wordt gesloten}
                 MessageBoxResult confirmDeleteOrNot = MessageBox.Show("Delete member", "Are you sure you want to delete" + selectedMember.Name + "?", MessageBoxButton.YesNo);
                 if (confirmDeleteOrNot == MessageBoxResult.Yes)
                 {

@@ -68,24 +68,10 @@ namespace Hotel.Presentation
                 {
                     if (organisorUI.Id != null)
                     {
-
-                        //TODO
-                        //Hier kan je nog een controle uitvoeren voor niet hetzelfde event toe te voegen.
-                        //Een controle of het event al bestaat wordt niet uitgevoerd.
-
-                        //                    memberManager.AddMember((int)customerUI.Id, w.MemberUI.Name, birthDate);
                        w.eventUI.Id = eventManager.AddEvent((int)organisorUI.Id,EventMapper.MapToEventModel(w.eventUI));
 
                         eventUIs.Add(w.eventUI);
                        EventsDataGrid.Items.Refresh();
-
-                        //                    memberUIs.Add(w.MemberUI);
-                        //                    MembersDataGrid.Items.Refresh();
-                        //            }
-                        //            else
-                        //            {
-                        //                MessageBox.Show("Invalid birthdate format. Please enter a valid date.", "Error");
-                        //            }
 
                     }
                 }
@@ -96,7 +82,6 @@ namespace Hotel.Presentation
 
             }
         }
-        //Al gedaan
         private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
             Close();

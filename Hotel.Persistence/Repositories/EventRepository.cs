@@ -59,7 +59,7 @@ namespace Hotel.Persistence.Repositories
                 throw new EventRepositoryException("GetEventsByOrganisorId", ex);
             }
         }
-        public IReadOnlyList<Event> GetEvents() //Nog niet getest
+        public IReadOnlyList<Event> GetEvents()
         {
             try
             {

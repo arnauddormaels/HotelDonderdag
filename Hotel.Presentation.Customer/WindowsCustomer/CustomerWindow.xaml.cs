@@ -29,7 +29,6 @@ namespace Hotel.Presentation
             this.CustomerUI = customerUI;
             if (CustomerUI != null)
             {
-                IdTextBox.Text = CustomerUI.Id.ToString();
                 NameTextBox.Text = CustomerUI.Name;
                 EmailTextBox.Text = CustomerUI.Email;
                 PhoneTextBox.Text = CustomerUI.Phone;

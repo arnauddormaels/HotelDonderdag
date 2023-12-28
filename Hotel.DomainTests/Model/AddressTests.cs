@@ -14,16 +14,16 @@ namespace Hotel.Tests.Model
         [Fact]
         public void Constructor_WithValidParameters_ShouldCreateAddressObject()
         {
-            // Arrange
-            string city = "City";
-            string street = "Street";
-            string postalCode = "12345";
+            // Arrange --Klaarzetten van de data die gebruikt wordt
+            string city = "Leuven";
+            string street = "Stationstraat";
+            string postalCode = "9000";
             string houseNumber = "42";
 
-            // Act
+            // Act -- Uitvoeren van de nodige Constructors/methodes
             Address address = new Address(city, street, postalCode, houseNumber);
 
-            // Assert
+            // Assert  -- Controleren of dat de objecten de juiste waardes bevatten
             Assert.NotNull(address);
             Assert.Equal(city, address.City);
             Assert.Equal(street, address.Street);
@@ -32,17 +32,14 @@ namespace Hotel.Tests.Model
         }
 
         [Theory]
-        [InlineData("City", "Street", "12345", "42")]
-        [InlineData("AnotherCity", "AnotherStreet", "54321", "13")]
+        [InlineData("Leuven", "Stationstraat", "9000", "42")]
+        [InlineData("Gent", "SintPiertersStraat", "9200", "13")]
         public void ToAddressLine_ShouldReturnCorrectFormat(string city, string street, string postalCode, string houseNumber)
         {
-            // Arrange
             Address address = new Address(city, street, postalCode, houseNumber);
 
-            // Act
             string addressLine = address.ToAddressLine();
 
-            // Assert
             string expectedFormat = $"{city}|{postalCode}|{street}|{houseNumber}";
             Assert.Equal(expectedFormat, addressLine);
         }
@@ -50,62 +47,52 @@ namespace Hotel.Tests.Model
         [Fact]
         public void Constructor_WithInvalidCity_ShouldThrowCustomerException()
         {
-            // Arrange
+            //Arrange
             string city = "";
-
-            // Act & Assert
-            Assert.Throws<CustomerException>(() => new Address(city, "Street", "12345", "42"));
+            //Act & Assert 
+            Assert.Throws<CustomerException>(() => new Address(city, "Stationstraat", "9000", "42"));
         }
 
         [Fact]
         public void Constructor_WithInvalidPostalCode_ShouldThrowCustomerException()
         {
-            // Arrange
             string postalCode = "";
 
-            // Act & Assert
-            Assert.Throws<CustomerException>(() => new Address("City", "Street", postalCode, "42"));
+            Assert.Throws<CustomerException>(() => new Address("Leuven", "Stationstraat", postalCode, "42"));
         }
 
         [Fact]
         public void Constructor_WithInvalidStreet_ShouldThrowCustomerException()
         {
-            // Arrange
             string street = "";
 
-            // Act & Assert
-            Assert.Throws<CustomerException>(() => new Address("City", street, "12345", "42"));
+            Assert.Throws<CustomerException>(() => new Address("Leuven", street, "9000", "42"));
         }
 
         [Fact]
         public void Constructor_WithInvalidHouseNumber_ShouldThrowCustomerException()
         {
-            // Arrange
             string houseNumber = "";
 
-            // Act & Assert
-            Assert.Throws<CustomerException>(() => new Address("City", "Street", "12345", houseNumber));
+            Assert.Throws<CustomerException>(() => new Address("Leuven", "Stationstraat", "9000", houseNumber));
         }
 
         [Theory]
-        [InlineData("City [12345] - Street - 42", "City", "12345", "Street", "42")]
-        [InlineData("AnotherCity [54321] - AnotherStreet - 13", "AnotherCity", "54321", "AnotherStreet", "13")]
+        [InlineData("Leuven [9000] - Stationstraat - 42", "Leuven", "9000", "Stationstraat", "42")]
+        [InlineData("Brugge [9200] - Stationstraat - 13", "Brugge", "9200", "Stationstraat", "13")]
         public void ToAddressLine_WithValidFormat_ShouldReturnCorrectAddressLine(string input, string expectedCity, string expectedPostalCode, string expectedStreet, string expectedHouseNumber)
         {
-            // Act
             string addressLine = Address.ToAddressLine(input);
 
-            // Assert
             Assert.Equal($"{expectedCity}|{expectedPostalCode}|{expectedStreet}|{expectedHouseNumber}", addressLine);
         }
 
         [Fact]
         public void ToAddressLine_WithInvalidFormat_ShouldThrowCustomerException()
         {
-            // Arrange
+
             string invalidAddress = "InvalidAddress";
 
-            // Act & Assert
             Assert.Throws<CustomerException>(() => Address.ToAddressLine(invalidAddress));
         }
     }

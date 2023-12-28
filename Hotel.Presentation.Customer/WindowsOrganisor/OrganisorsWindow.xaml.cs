@@ -30,7 +30,6 @@ namespace Hotel.Presentation
         private OrganisorManager organisorManager;
         private Domain.Managers.EventManager eventsManager;
         
-        //int id, DateTime fixture, int nrOfPlaces, PriceInfoUI priceInfo, DescriptionUI description
         public OrganisorsWindow()
         {
             InitializeComponent();
@@ -77,8 +76,9 @@ namespace Hotel.Presentation
                     organisorManager.UpdateOrganisor(w.OrganisorUI.Id.Value, w.OrganisorUI.Name, w.OrganisorUI.Email, w.OrganisorUI.Phone, w.OrganisorUI.Address);
                     organisorUis[organisorUis.IndexOf((OrganisorUI)OrganisorsDataGrid.SelectedItem)] = w.OrganisorUI;
                     OrganisorsDataGrid.Items.Refresh();
+                    MessageBox.Show("Organisor updated");
+
                 }
-                MessageBox.Show("Organisor updated");
 
             }
         }
@@ -101,7 +101,6 @@ namespace Hotel.Presentation
             {
                 try
                 {
-                    //Customer customer = new Customer(customerManager.AddCustomer(w.CustomerUI.Name, w.CustomerUI.Email, w.CustomerUI.Phone, w.CustomerUI.Address));
                     w.OrganisorUI.Id = organisorManager.AddOrganisor(w.OrganisorUI.Name, w.OrganisorUI.Email, w.OrganisorUI.Phone, w.OrganisorUI.Address).Id;
                     organisorUis.Add(w.OrganisorUI);
 
@@ -116,3 +115,6 @@ namespace Hotel.Presentation
         }
     }
 }
+
+
+

@@ -22,7 +22,6 @@ namespace Hotel.Persistence.Repositories
 
         public List<PriceInfo> getPriceInfos()
         {
-            //TODO
             try
             {
                 List<PriceInfo> priceInfos = new List<PriceInfo>();

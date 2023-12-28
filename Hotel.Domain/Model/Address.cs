@@ -53,10 +53,10 @@ namespace Hotel.Domain.Model
         } 
         public static string ToAddressLine(string addressLine)
         {
-            // Define a regular expression pattern to match the expected address format
+            // Onze regex formule
             string pattern = @"^(.*?)\s\[(.*?)\]\s-\s(.*?)\s-\s(.*?)$";
 
-            // Use Regex.Match to find matches in the input address line
+            // Controleren of de input match het de regex
             Match match = Regex.Match(addressLine, pattern);
 
             if (match.Success)

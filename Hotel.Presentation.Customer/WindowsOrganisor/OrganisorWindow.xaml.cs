@@ -28,7 +28,6 @@ namespace Hotel.Presentation.WindowsOrganisor
             this.OrganisorUI = organisorUI ;
             if (OrganisorUI != null)
             {
-                IdTextBox.Text = OrganisorUI.Id.ToString();
                 NameTextBox.Text = OrganisorUI.Name;
                 EmailTextBox.Text = OrganisorUI.Email;
                 PhoneTextBox.Text = OrganisorUI.Phone;

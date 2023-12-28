@@ -17,8 +17,7 @@ namespace Hotel.Presentation.Model
         public int eventDuration { get => eventUI.Description.Duration; }
         public DateTime eventDate { get => eventUI.Fixture; }
         public string eventLocation { get => eventUI.Description.Location; }
-        public int TotalPrice { get; set; } // TODO Prijs berekenen 
-
+        public int TotalPrice { get; set; } 
         public RegistrationUI(int id, Dictionary<int, MemberUI> members, EventUI @event, int totalPrice)
         {
             Id = id;
@@ -33,7 +32,6 @@ namespace Hotel.Presentation.Model
         {
             this.memberUIs = members;
             this.eventUI = @event;
-            //MapRegistrationUI(members);
 
         }
 

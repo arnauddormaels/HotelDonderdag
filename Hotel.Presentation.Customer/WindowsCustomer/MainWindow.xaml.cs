@@ -32,7 +32,6 @@ namespace Hotel.Presentation
         private ObservableCollection<CustomerUI> customerUIs = new ObservableCollection<CustomerUI>();
         private CustomerManager customerManager;
         private MemberManager membersManager;
-        private string conn = "Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
         public MainWindow()
         {
             InitializeComponent();

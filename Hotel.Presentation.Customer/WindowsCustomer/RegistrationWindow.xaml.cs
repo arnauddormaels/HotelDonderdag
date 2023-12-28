@@ -62,7 +62,6 @@ namespace Hotel.Presentation.WindowsCustomer
                 {
                     memberIds.Add(memberUI.Id);
                 }
-                //TODO : Wat gaat Addregistration returnen? en hoe gaan we de lijst updaten in registraties window? 
                 registrationManager.AddRegistration(customerUI.Id.Value, eventUI.Id, memberIds);
 
                 MessageBox.Show("Registration is succesfull");

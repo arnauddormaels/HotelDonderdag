@@ -43,7 +43,7 @@ namespace Hotel.Presentation.WindowsOrganisor
             priceInfoManager = new PriceInfoManager(RepositoryFactory.PriceInfoRepository);
             descriptionUIs = new ObservableCollection<DescriptionUI>(descriptionManager.GetDescriptions().Select(description => DescriptionMapper.ToDescriptionUI(description)).ToList());
             priceInfoUIs = new ObservableCollection<PriceInfoUI>(priceInfoManager.getPriceInfos().Select(priceInfo => PriceInfoMapper.ToPriceInfoUI(priceInfo)).ToList());
-            //TODO
+
             DescriptionDataGrid.ItemsSource = descriptionUIs;
             PriceInfoDataGrid.ItemsSource = priceInfoUIs;
             this.eventManager = eventManager;
@@ -51,8 +51,18 @@ namespace Hotel.Presentation.WindowsOrganisor
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            //2023-11-19 12:30:00.000
-            if (IsFormatValid())
+
+            if (DescriptionDataGrid.SelectedItem == null || PriceInfoDataGrid.SelectedItem == null)
+            {
+
+                MessageBox.Show("Please select a description and a price info");
+            }
+            else if (string.IsNullOrEmpty(NrOfPlacesTextBox.Text) || string.IsNullOrWhiteSpace(NrOfPlacesTextBox.Text) || !int.TryParse(NrOfPlacesTextBox.Text, out int temp))
+            {
+
+                MessageBox.Show("Please enter a valid nr of places.");
+            }
+            else if (IsFormatValid())   //2024-11-19 12:30:00.000
             {
 
                 if (eventUI == null)
@@ -80,6 +90,7 @@ namespace Hotel.Presentation.WindowsOrganisor
 
                 Close();
             }
+
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -88,23 +99,23 @@ namespace Hotel.Presentation.WindowsOrganisor
         }
         private bool IsFormatValid()
         {
-            fixture = DateTime.Parse("2023 - 11 - 19 12:30:00.000");
-            //if (DateTime.TryParse(FixTimeTextBox.Text, out fixture))
-            //{
-            //    if (fixture < DateTime.Now)
-            //    {
-            //        MessageBox.Show("fix time must be in the future.", "Error");
-            //        return false;
-            //    }
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Invalid fix time format. Please enter a valid date.", "Error");
-            //    return false;
+            //fixture = DateTime.Parse("2023 - 11 - 19 12:30:00.000");
+            if (DateTime.TryParse(FixTimeTextBox.Text, out fixture))
+            {
+                if (fixture < DateTime.Now)
+                {
+                    MessageBox.Show("fix time must be in the future.", "Error");
+                    return false;
+                }
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Invalid fix time format. Please enter a valid date.", "Error");
+                return false;
 
-            //}
+            }
 
-            return true;
         }
 
 
@@ -115,7 +126,7 @@ namespace Hotel.Presentation.WindowsOrganisor
             {
                 try
                 {
-                    
+
                     w.DescriptionUI.Id = descriptionManager.AddDescription(DescriptionMapper.ToDescription(w.DescriptionUI));
                     descriptionUIs.Add(w.DescriptionUI);
                     DescriptionDataGrid.Items.Refresh();

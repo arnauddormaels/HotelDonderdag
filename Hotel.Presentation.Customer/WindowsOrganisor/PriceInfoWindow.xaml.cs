@@ -39,8 +39,7 @@ namespace Hotel.Presentation.WindowsOrganisor
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-           
-            
+
             if (IsFormatValid())
             {
 
@@ -53,6 +52,7 @@ namespace Hotel.Presentation.WindowsOrganisor
 
                 else
                 {
+                    //Wordt momenteel niet gebruikt in de applicatie maar staat wel al klaar voor als we het willen uitbreiden.
                     //Update
                     //update DB
                     PriceInfoUI.AdultPrice = adultPrice;
@@ -65,11 +65,11 @@ namespace Hotel.Presentation.WindowsOrganisor
 
                 Close();
             }
-            
+
         }
         public bool IsFormatValid()
         {
-           
+
             if (!int.TryParse(AdultPriceTextBox.Text, out adultPrice))
             {
                 MessageBox.Show("Adult Price is not a number");
@@ -104,11 +104,8 @@ namespace Hotel.Presentation.WindowsOrganisor
             {
                 return true;
             }
-            
-       
 
         }
-
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             Close();

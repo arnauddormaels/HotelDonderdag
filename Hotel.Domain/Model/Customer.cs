@@ -12,7 +12,7 @@ namespace Hotel.Domain.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public ContactInfo Contact { get; set; }
-        private List<Member> _members = new List<Member>(); //gn dubbels
+        private List<Member> _members = new List<Member>(); //gn dubbels, wordt gecontroleerd in CheckMemebr() 
 
         public Customer(int id, string name, ContactInfo contact)
         {
@@ -40,8 +40,7 @@ namespace Hotel.Domain.Model
         {
             try
             {
-                //AddMember(new Member(name, birthday));
-                return !_members.Contains(member);
+                return !_members.Contains(member);              //Hiervoor wordt de Equals() methode van Member ge-override
                 
             }
             catch (Exception)

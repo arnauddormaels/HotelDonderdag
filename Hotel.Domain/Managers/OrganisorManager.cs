@@ -38,7 +38,6 @@ namespace Hotel.Domain.Managers
             _organisorRepository.DeleteOrganisor(id);
         }
 
-        //TO_DO
         public IReadOnlyList<Organisor> GetOrganisors(string filter)
         {
             try
@@ -79,20 +78,5 @@ namespace Hotel.Domain.Managers
                 throw new OrganisorManagerException("GetEventsByOrganisorId", ex);
             }
         }
-
-        //public bool CheckEvent(int organisorId, string eventName, DateTime birthDate)
-        //{ //Check uitvoeren in de organisor of e al bestaat.
-        //    DateOnly date = DateOnly.FromDateTime(birthDate);
-        //    Event e = new Event(eventName, date);
-        //    try
-        //    {
-        //        return _organisorRepository.GetOrganisorById(organisorId).CheckEvent(e);
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //}
     }
 }

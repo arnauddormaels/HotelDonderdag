@@ -156,7 +156,6 @@ namespace Hotel.Persistence.Repositories
         {
             try
             {
-                //TODO Vraagje Voor Tom, waarom ken hij hier id wel en in de databank gebruiken we zelfs niet eens een id.
                 string updateSql = "UPDATE Member SET name = @newName, birthday = @newBirthday, customerId = @customerId, status = @status WHERE customerId = @customerId AND name = @oldName AND birthday = @oldBirthday";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))

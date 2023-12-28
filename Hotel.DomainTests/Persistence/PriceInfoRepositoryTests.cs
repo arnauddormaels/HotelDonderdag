@@ -17,7 +17,7 @@ namespace Hotel.Tests.Persistence
         public PriceInfoRepositoryTests()
         {
             // Gebruik een testdatabase of in-memory database (bijvoorbeeld SQLite) voor unit tests
-            testConnectionString = "Data Source=LAPTOP-UMGHNHQ1\\SQLEXPRESS;Initial Catalog=HotelDonderdag;Integrated Security=True";
+            testConnectionString = "Data Source=.;Initial Catalog=HotelDonderdag;Integrated Security=True";
             priceInfoRepository = new PriceInfoRepository(testConnectionString);
         }
 
@@ -31,7 +31,7 @@ namespace Hotel.Tests.Persistence
             int id = priceInfoRepository.AddPriceInfo(priceInfo);
 
             // Assert
-            Assert.True(id > 0); // Id should be a positive integer
+            Assert.True(id > 0);            //Id moet groter zijn dan 0
 
             // Cleanup
             priceInfoRepository.DeletePriceInfo(id);
@@ -40,15 +40,12 @@ namespace Hotel.Tests.Persistence
         [Fact]
         public void GetPriceInfos_ShouldRetrieveListOfPriceInfos()
         {
-            // Arrange
             var priceInfo1 = new PriceInfo(150, 75, 10, 18);
             var priceInfo2 = new PriceInfo(120, 60, 15, 20);
 
-            // Act
             int id1 = priceInfoRepository.AddPriceInfo(priceInfo1);
             int id2 = priceInfoRepository.AddPriceInfo(priceInfo2);
 
-            // Assert
             List<PriceInfo> priceInfos = priceInfoRepository.getPriceInfos();
             Assert.NotNull(priceInfos);
             Assert.Contains(priceInfo1, priceInfos);
@@ -62,15 +59,13 @@ namespace Hotel.Tests.Persistence
         [Fact]
         public void DeletePriceInfo_ShouldRemovePriceInfoFromDatabase()
         {
-            // Arrange
             var priceInfo = new PriceInfo(150, 75, 10, 18);
             int id = priceInfoRepository.AddPriceInfo(priceInfo);
 
-            // Act
             priceInfoRepository.DeletePriceInfo(id);
 
             // Assert
-            // Attempt to retrieve the deleted price info; it should be null
+            // Controleren dat de priceInfo niet meer in de PriceInfos zit
             List<PriceInfo> priceInfos = priceInfoRepository.getPriceInfos();
             Assert.DoesNotContain(priceInfo, priceInfos);
         }
